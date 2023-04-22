@@ -21,20 +21,34 @@ Hooks.once("init", async () =>
 
     // Register sheets
     console.log("ItOA | Registering sheets...");
-    Actors.registerSheet("itoa", itoaActorSheet, { 
-        types: ["character"],
-        label: "Character",
-        makeDefault: true 
+
+    // Actors
+    const actorTypes = [
+        ["character", itoaActorSheet]
+    ];
+    // Loop through all our actor types and register each one
+    actorTypes.forEach((type) => {
+        Actors.registerSheet("itoa", type[1], {
+            types: [type[0]],
+            // If I were fancy I'd localize this...
+            label: type[0] && type[0][0].toUpperCase() + type[0].slice(1),
+            makeDefault: true
+        });
     });
-    Items.registerSheet("itoa", itoaItemSheet, {
-        types: ["item"],
-        label: "Item",
-        makeDefault: true
-    });
-    Items.registerSheet("itoa", itoaSkillSheet, {
-        types: ["skill"],
-        label: "Skill",
-        makeDefault: true
+
+    // Items
+    const itemTypes = [
+        ["item", itoaItemSheet],
+        ["skill", itoaSkillSheet]
+    ];
+    // Loop through all our item types and register each one
+    itemTypes.forEach((type) => {
+        Items.registerSheet("itoa", type[1], {
+            types: [type[0]],
+            // If I were fancy I'd localize this...
+            label: type[0] && type[0][0].toUpperCase() + type[0].slice(1),
+            makeDefault: true
+        });
     });
 
     console.log("ItOA | Initialization complete!");

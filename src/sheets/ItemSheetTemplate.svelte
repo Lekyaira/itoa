@@ -12,7 +12,7 @@
 <main class="itoaSheet">
    <header>
       <img src={$item.img} alt="{$item.name}'s image" on:click={sheet.editImage()} />
-   <input type="text" bind:value={$item.name} />
+   <input type="text" name="name" bind:value={$item.name} />
    </header>
 </main>
   

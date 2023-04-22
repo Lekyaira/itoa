@@ -14,7 +14,7 @@ export default class itoaItemSheet extends itoaBaseSheet
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
             width: 700,
-            height: 900,
+            height: 600,
         });
     }
 }

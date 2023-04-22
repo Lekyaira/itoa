@@ -29,9 +29,12 @@
     },
 
     "Item": {
-        "types": ["item"],
+        "types": ["item", "skill"],
         "item": {
             "price": 0
+        },
+        "skill": {
+            "text": ""
         }
     }
 }

@@ -1,5 +1,5 @@
 import itoaBaseSheet from "../core/itoaBaseSheet";
-import ItemSheetTemplate from "./ItemSheetTemplate.svelte";
+import SkillSheetTemplate from "./SkillSheetTemplate.svelte";
 
 export default class itoaItemSheet extends itoaBaseSheet
 {
@@ -8,13 +8,13 @@ export default class itoaItemSheet extends itoaBaseSheet
     }
 
     constructor(object = {}, options = {}) {
-        super(object, options, ItemSheetTemplate);
+        super(object, options, SkillSheetTemplate);
     }
 
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
             width: 700,
-            height: 900,
+            height: 600,
         });
     }
 }

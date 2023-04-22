@@ -1,7 +1,9 @@
 import itoaActor from './itoaActor.js';
 import itoaItem from './itoaItem.js';
+
 import itoaActorSheet from './sheets/itoaActorSheet.js';
 import itoaItemSheet from './sheets/itoaItemSheet.js';
+import itoaSkillSheet from './sheets/itoaSkillSheet.js';
 
 Hooks.once("init", async () => 
 {
@@ -21,10 +23,17 @@ Hooks.once("init", async () =>
     console.log("ItOA | Registering sheets...");
     Actors.registerSheet("itoa", itoaActorSheet, { 
         types: ["character"],
+        label: "Character",
         makeDefault: true 
     });
     Items.registerSheet("itoa", itoaItemSheet, {
         types: ["item"],
+        label: "Item",
+        makeDefault: true
+    });
+    Items.registerSheet("itoa", itoaSkillSheet, {
+        types: ["skill"],
+        label: "Skill",
         makeDefault: true
     });
 

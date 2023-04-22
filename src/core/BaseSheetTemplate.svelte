@@ -13,7 +13,7 @@
     export let component = false;
  
     // External application
-    const application = getContext('external').application;
+    const application = getContext('#external').application;
  
     // Two-way binding to title, sets title to the object's name.
     const storeTitle = application.reactive.storeAppOptions.title;

@@ -26,6 +26,21 @@
    <section id="main">
       <section id="attributes">
          <div>
+            Hero points
+         </div>
+         <div>
+            HP
+         </div>
+         <div>
+            Armor
+         </div>
+         <div>
+            Shield
+         </div>
+         <div>
+            Dodge
+         </div>
+         <div>
             <div class="attribName" id="str">Strength</div>
             <input class="attribValue" type="text" name="system.strength.current" bind:value={$actor.system.strength.current} />
          </div>

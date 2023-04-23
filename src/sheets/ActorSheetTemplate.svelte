@@ -11,24 +11,133 @@
 
 <main class="itoaSheet">
    <header>
-      <img src={$actor.img} alt="{$actor.name}'s portrait" on:click={sheet.editImage()} />
-   <input type="text" name="name" bind:value={$actor.name} />
+      <input id="name" type="text" name="name" bind:value={$actor.name} />
+      <section id="levelBar">
+         <section id="level">
+            <div>Level</div>
+            <input id="levelText" type="text" name="system.level" bind:value={$actor.system.level} />
+         </section>
+         <div id="experience">
+            <div id="experienceValue"><input id="xpValue" type="text" name="system.xp" bind:value={$actor.system.xp} /> / 1000</div>
+            <progress id="experienceBar" value={$actor.system.xp} max="1000" />
+         </div>
+      </section>
    </header>
+   <section id="main">
+      <section id="attributes">
+         <div>Strength 10</div>
+         <div>Wits 10</div>
+         <div>Will 10</div>
+      </section>
+      <section id="info">
+         <img src={$actor.img} alt="{$actor.name}'s portrait" on:click={sheet.editImage()} />
+         <section id="infoBlock">
+            <div><label for="species">Species </label><input id="species" type="text" /></div>
+            <div><label for="class">Class</label><input id="class" type="text" /></div>
+            <div><label for="background">Background</label><input id="background" type="text" /></div>
+         </section>
+      </section>
+   </section>
 </main>
   
- <style lang="scss">
-    main {
-       text-align: center;
-       display: flex;
-       flex-direction: column;
-    }
- 
-    header {
-       display: flex;
-    }
- 
-    header img {
-       width: 6rem;
-       height: 6rem;
-    }
- </style>
+<style lang="scss">
+   /*
+    * Header
+    */
+   main {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+   }
+
+   header {
+      display: flex;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid black;
+   }
+
+   header #name {
+      font-size: 1.5rem;
+      text-align: left;
+      height: 2.5rem;
+      margin: 0.5rem;
+   }
+
+   header #levelBar {
+      display: flex;
+      align-items: center;
+   }
+
+   header #level {
+      position: relative;  
+   }
+
+   header #level div {
+      font-size: 0.7rem;
+      position: absolute;
+      top: 0.2rem;
+      left: 0.4rem;
+   }
+
+   header #levelText {
+      height: 3.5rem;
+      width: 2.5rem;
+      font-size: 2rem;
+      border-radius: 0.5rem;
+   }
+
+   #xpValue {
+      height: 1rem;
+      width: 4rem;
+   }
+
+   /*
+    * Main
+    */
+   #main {
+      display: flex;
+      flex-flow: row;
+   }
+
+   #attributes {
+      width: 8rem;
+      height: 40rem;
+      border-right: 1px solid black;
+      text-align: left;
+      padding: 0.5rem;
+      margin: 0.5rem;
+   }
+
+   /*
+    * Info
+    */
+   #info {
+      display: flex;
+      border-bottom: 1px solid black;
+      padding: 0.5rem;
+      height: 14rem;
+   }
+   img {
+      width: 10rem;
+      height: 13rem;
+      object-fit: cover;
+   }
+   #infoBlock {
+      padding: 0.4rem;
+      width: 22rem;
+   }
+   #infoBlock input {
+      width: 10rem;
+      display: flex;
+   }
+   #infoBlock div {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      justify-content: space-between;
+      margin: 0.4rem;
+   }
+   #infoBlock label {
+      font-size: 0.7rem;
+   }
+</style>

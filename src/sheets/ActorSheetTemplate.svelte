@@ -25,9 +25,18 @@
    </header>
    <section id="main">
       <section id="attributes">
-         <div>Strength 10</div>
-         <div>Wits 10</div>
-         <div>Will 10</div>
+         <div>
+            <div class="attribName" id="str">Strength</div>
+            <input class="attribValue" type="text" name="system.strength.current" bind:value={$actor.system.strength.current} />
+         </div>
+         <div>
+            <div class="attribName" id="wit">Wits</div>
+            <input class="attribValue" type="text" name="system.wits.current" bind:value={$actor.system.wits.current} />
+         </div>
+         <div>
+            <div class="attribName" id="wil">Will</div>
+            <input class="attribValue" type="text" name="system.will.current" bind:value={$actor.system.will.current} />
+         </div>
       </section>
       <section id="info">
          <img src={$actor.img} alt="{$actor.name}'s portrait" on:click={sheet.editImage()} />
@@ -99,13 +108,51 @@
       flex-flow: row;
    }
 
+   /*
+    * Attributes
+    */
    #attributes {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       width: 8rem;
       height: 40rem;
       border-right: 1px solid black;
       text-align: left;
       padding: 0.5rem;
-      margin: 0.5rem;
+      margin: 0rem;
+   }
+
+   #attributes div {
+      position: relative;
+      margin: 0.4rem;
+   }
+
+   #attributes .attribName {
+      font-size: 0.7rem;
+      text-align: center;
+      position: absolute;
+      top: -0.2rem;
+   }
+
+   #attributes #str {
+      left: -0.1rem;
+   }
+
+   #attributes #wit {
+      left: 0.5rem;
+   }
+
+   #attributes #wil {
+      left: 0.6rem;
+   }
+
+   #attributes .attribValue {
+      width: 3.2rem;
+      height: 3.2rem;
+      text-align: center;
+      font-size: 1.5rem;
+      border-radius: 0.5rem;
    }
 
    /*
@@ -128,6 +175,7 @@
    }
    #infoBlock input {
       width: 10rem;
+      height: 2rem;
       display: flex;
    }
    #infoBlock div {

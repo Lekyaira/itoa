@@ -42,9 +42,12 @@
         "item": {
             "price": 0,
             "weight": 0,
+            "weightType": 0,
             "equipable": false,
             "wornState": 0,
+            "isArmor": false,
             "armor": 0,
+            "isShield": false,
             "shield": {
                 "hardness": 0,
                 "hp": 0

@@ -17,7 +17,7 @@
  
     // Two-way binding to title, sets title to the object's name.
     const storeTitle = application.reactive.storeAppOptions.title;
-    $: $storeTitle = doc.name;
+    $: $storeTitle = $doc.name;
  
     // Update data when input fields are changed
     onMount(async () =>

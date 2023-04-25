@@ -61,11 +61,15 @@
     {#each $actor.skills as skill, i}
     <div class="skillEntry" style:background-color="{i % 2 ? 'rgba(0,0,0,0.05)' : 'transparent'}">
         <img class="skillImage" src="{skill.item.img}" alt="{skill.item.name} image." />
-        <div class="skillTitle" on:click={e => item.expanded = !item.expanded}>{skill.item.name}</div>
+        <div class="skillTitle" on:click={e => skill.expanded = !skill.expanded}>{skill.item.name}</div>
         <div class="editBlock">
             <i id="editItem" class="editButton fas fa-pen-to-square" on:click={e => editItem(skill.item)} />
             <i id="deleteItem" class="editButton fas fa-trash" on:click={e => deleteItem(skill.item)} />
         </div>
+    </div>
+    <div class="skillInfo" style:display={skill.expanded ? 'flex' : 'none'}>
+        <div class="infoSeperator"/>
+        <div>{@html skill.item.system.text}</div>
     </div>
     {/each}
 </section>
@@ -99,7 +103,7 @@
 
     .skillEntry {
         display: grid;
-        grid: 1.5rem / 1.5rem auto auto;
+        grid: 1.5rem / 1.5rem auto 3rem;
         align-items: center;
         height: 1.7rem;
         padding: 0.1rem;
@@ -112,11 +116,28 @@
 
     .skillEntry .skillTitle {
         justify-self: left;
+        display: flex;
+        justify-content: left;
+        align-items: center;
         margin: 0 0.3rem 0 0.3rem;
+        width: 100%;
+        height: 1.5rem;
     }
 
     .skillEntry .editBlock {
         display: flex;
         justify-self: right;
+    }
+
+    .skillInfo {
+        flex-direction: row;
+        /*margin: 0.2rem 0.2rem 0.2rem 1rem;*/
+        text-align: left;
+    }
+
+    .skillInfo .infoSeperator {
+        width: 0.9rem;
+        margin: 0.4rem 0.8rem 0.4rem 0;
+        border-right: 3px dotted #908d8a;
     }
 </style>

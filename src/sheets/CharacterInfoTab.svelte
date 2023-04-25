@@ -7,10 +7,11 @@
 
     // Edit actor portrait
     function editPortrait(event){
-        console.log("Edit!");
+        // Import Tokenize function
         const tokenize = game.modules.get('vtta-tokenizer')?.api?.tokenizeActor;
-        console.log($doc.actor);
+        // If we have Tokenizer installed, use it
         if(tokenize) tokenize($doc);
+        // Otherwise, call our own file dialog
         else sheet.editImage();
     }
 

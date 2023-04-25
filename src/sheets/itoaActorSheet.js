@@ -19,7 +19,23 @@ export default class itoaActorSheet extends itoaBaseSheet
         super(object, options, ActorSheetTemplate);
     }
 
-    /** @inheritdoc */
+    /**
+    * Specify the set of config buttons which should appear in the app header. Buttons should be returned as an
+    * Array of objects.
+    *
+    * Provides an explicit override of Application._getHeaderButtons to add additional buttons.
+    *
+    * Additional properties for button data includes:
+    * - {boolean}    alignLeft - When true the button is left aligned after the window title.
+    * - {string}     keyCode - Defines the KeyboardEvent 'code' that activates the button; default: 'Enter'.
+    * - {Function}   onContextMenu - Callback for right click / contextmenu keyboard event.
+    * - {Function}   onPress - Callback for left click / 'Enter' key.
+    * - {Record<string, string>} styles - Inline styles to apply to the button.
+    * - {string}     title - A tooltip to display when hovered.
+    *
+    * @returns {ApplicationHeaderButton[]} The app header buttons.
+    * @override
+    */
     _getHeaderButtons() {
         const buttons = super._getHeaderButtons();
         const canConfigure = game.user.isGM || (this.actor.isOwner && game.user.can("TOKEN_CONFIGURE"));
@@ -30,14 +46,7 @@ export default class itoaActorSheet extends itoaBaseSheet
                 icon: "fas fa-user-circle",
                 onclick: ev => this._onConfigureToken(ev)
             });
-            /*buttons.splice(1, 0, {
-                label: this.token ? "Token" : "TOKEN.TitlePrototype",
-                class: "configure-token",
-                icon: "fas fa-user-circle",
-                onclick: ev => this._onConfigureToken(ev)
-            });*/
         }
-        console.log(buttons);
         return buttons;
     }
 
@@ -63,28 +72,4 @@ export default class itoaActorSheet extends itoaBaseSheet
             height: 900,
         });
     }
-
-    /**
-    * Specify the set of config buttons which should appear in the app header. Buttons should be returned as an
-    * Array of objects.
-    *
-    * Provides an explicit override of Application._getHeaderButtons to add additional buttons.
-    *
-    * Additional properties for button data includes:
-    * - {boolean}    alignLeft - When true the button is left aligned after the window title.
-    * - {string}     keyCode - Defines the KeyboardEvent 'code' that activates the button; default: 'Enter'.
-    * - {Function}   onContextMenu - Callback for right click / contextmenu keyboard event.
-    * - {Function}   onPress - Callback for left click / 'Enter' key.
-    * - {Record<string, string>} styles - Inline styles to apply to the button.
-    * - {string}     title - A tooltip to display when hovered.
-    *
-    * @returns {ApplicationHeaderButton[]} The app header buttons.
-    * @override
-    */
-    /*_getHeaderButtons()
-    {
-        const buttons = super._getHeaderButtons();
-
-        return buttons;
-    }*/
 }

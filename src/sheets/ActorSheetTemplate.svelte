@@ -1,11 +1,19 @@
 <script>
    import { each } from "svelte/internal";
+   import {getContext} from "svelte";
+   import CharacterInfoTab from './CharacterInfoTab.svelte';
+   import SkillsTab from './SkillsTab.svelte';
+   import EquipmentTab from './EquipmentTab.svelte';
 
    // Sheet and Actor data passed in from base sheet.
    export let sheet;
    export let doc;
    // Set actor variable so we can refer to it later.
    const actor = doc;
+
+   const application = getContext('#external').application;
+   const headerButtonNoLabel = application.reactive.storeAppOptions.headerButtonNoLabel;
+   $headerButtonNoLabel = false;
 
    // Hero points
    function heropointClick() {
@@ -34,9 +42,9 @@
 
    // Navigation
    const navTabs = [
-      "Character",
-      "Skills",
-      "Equipment"
+      {label: "Character", symbol: "fas fa-address-card", component: CharacterInfoTab},
+      {label: "Skills", symbol: "fas fa-hand", component: SkillsTab},
+      {label: "Equipment", symbol: "fas fa-box-open", component: EquipmentTab}
    ];
    let currentTab = 0;
 </script>
@@ -126,29 +134,16 @@
 <!--Info-->
       <section id="info">
          <section id="infoHeader">
-            <div id="tabLabel">{navTabs[currentTab]}</div>
-            <div id="characterTabButton" class="tabButton" on:click={e => currentTab = 0}><i class="fas fa-address-card" /></div>
-            <div id="skillsTabButton" class="tabButton" on:click={e => currentTab = 1}><i class="fas fa-hand" /></div>
-            <div id="equipmentTabButton" class="tabButton" on:click={e => currentTab = 2}><i class="fas fa-box-open" /></div>
+            <div id="tabLabel">{navTabs[currentTab].label}</div>
+            {#each navTabs as tab, i}
+               <div class="tabButton" on:click={e => currentTab = i}><i class={tab.symbol}/></div>
+            {/each}
          </section>
          <section id="infoContent">
-<!--Character Content-->
-            <section id="characterContent" style:display={currentTab == 0 ? 'flex' : 'none'}>
-               <img src={$actor.img} alt="{$actor.name}'s portrait" on:click={sheet.editImage} />
-               <section id="infoBlock">
-                  <div><label for="species">Species </label><input id="species" name="system.species" type="text" bind:value={$actor.system.species} /></div>
-                  <div><label for="class">Class</label><input id="class" name="system.class" type="text" bind:value={$actor.system.class} /></div>
-                  <div><label for="background">Background</label><input id="background" name="system.background" type="text" bind:value={$actor.system.background} /></div>
-               </section>
-            </section>
-<!--Skills Content-->
-            <section id="skillsContent" style:display={currentTab == 1 ? 'flex' : 'none'}>
-               <div>Skills</div>
-            </section>
-<!--Equipment Content-->
-            <section id="equipmentContent" style:display={currentTab == 2 ? 'flex' : 'none'}>
-               <div>Equipment</div>
-            </section>
+            <svelte:component
+               this={navTabs[currentTab].component}
+               bind:sheet={sheet}
+               bind:doc={doc}/>
          </section>
       </section>
    </section>
@@ -368,34 +363,5 @@
       font-size: 1.3rem;
       margin-right: 0.2rem;
    }
-   #infoContent #characterContent {
-      display: flex;
-      border-bottom: 1px solid black;
-      padding: 0.5rem;
-      height: 14rem;
-   }
-   img {
-      width: 10rem;
-      height: 13rem;
-      object-fit: cover;
-   }
-   #infoBlock {
-      padding: 0.4rem;
-      width: 22rem;
-   }
-   #infoBlock input {
-      width: 10rem;
-      height: 2rem;
-      display: flex;
-   }
-   #infoBlock div {
-      display: flex;
-      flex-direction: column;
-      text-align: left;
-      justify-content: space-between;
-      margin: 0.4rem;
-   }
-   #infoBlock label {
-      font-size: 0.7rem;
-   }
+   
 </style>

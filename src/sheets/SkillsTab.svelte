@@ -10,11 +10,10 @@
     ////////////////////////////////
     // Handle Inventory Functions //
     ////////////////////////////////
-    async function addNewItem(type)
+    async function addNewItem()
     {
-        //const type = event.target.attributes.name.value;
-        console.log(`ITOA | addNewItem, type: '${type}'`);
-        // TODO: Add some cool item adding code here!
+        const data = [{name: 'New Skill', type: 'skill'}];
+        await Item.createDocuments(data, {parent: $actor});
     }
 
     async function deleteItem(item)
@@ -45,25 +44,22 @@
             }
             catch (err) { /**/ }
 
-            console.log(droppedSkill);
-
             if ( !$actor.isOwner ) return false;
             const data = [{name: droppedSkill.name, type: droppedSkill.type, img: droppedSkill.img, system:{...droppedSkill.system}}];
-            console.log(data);
-            const item = await Item.createDocuments(data, {parent: $actor});
-            console.log(item);
+            await Item.createDocuments(data, {parent: $actor});
     }
 </script>
 
 <!-- This is necessary for Svelte to generate accessors TRL can access for `elementRoot` -->
 <svelte:options accessors={true}/>
 
-<div on:drop|preventDefault|stopPropagation={onDrop}>
+<section on:drop|preventDefault|stopPropagation={onDrop}>
+    <div class="seperator"/>
     <div id="skillsHeader">
         <i id="addNew" class="editButton fas fa-plus" name="skill" on:click={e => addNewItem("skill")} />
     </div>
-    {#each $actor.skills as skill}
-    <div class="skillEntry">
+    {#each $actor.skills as skill, i}
+    <div class="skillEntry" style:background-color="{i % 2 ? 'rgba(0,0,0,0.05)' : 'transparent'}">
         <img class="skillImage" src="{skill.item.img}" alt="{skill.item.name} image." />
         <div class="skillTitle" on:click={e => item.expanded = !item.expanded}>{skill.item.name}</div>
         <div class="editBlock">
@@ -72,8 +68,55 @@
         </div>
     </div>
     {/each}
-</div>
+</section>
 
 <style lang="scss">
-    
+    section {
+        height: 47.5rem;
+        overflow-y: auto;
+    }
+
+    .editButton {
+        font-size: 1rem;
+        color: #635d58;
+        margin-right: 0.2rem;
+    }
+
+    .seperator {
+        height: 0.4rem;
+    }
+
+    #skillsHeader {
+        display: flex;
+        justify-content: right;
+        align-items: center;
+        height: 1.2rem;
+        border-bottom: 1px solid black;
+        border-top: 1px solid black;
+        background-color: rgba(0,0,0,0.1);
+        padding: 0.2rem;
+    }
+
+    .skillEntry {
+        display: grid;
+        grid: 1.5rem / 1.5rem auto auto;
+        align-items: center;
+        height: 1.7rem;
+        padding: 0.1rem;
+    }
+
+    .skillEntry img {
+        height: 1.5rem;
+        width: 1.5rem;
+    }
+
+    .skillEntry .skillTitle {
+        justify-self: left;
+        margin: 0 0.3rem 0 0.3rem;
+    }
+
+    .skillEntry .editBlock {
+        display: flex;
+        justify-self: right;
+    }
 </style>

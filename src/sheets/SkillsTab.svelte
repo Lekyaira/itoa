@@ -34,7 +34,6 @@
     */
     async function onDrop(event)
     {
-            console.log(event);
             const dropped = new TJSDocument();
             let droppedSkill;
             try
@@ -45,6 +44,7 @@
             catch (err) { /**/ }
 
             if ( !$actor.isOwner ) return false;
+            if(droppedSkill.type !== 'skill') return false;
             const data = [{name: droppedSkill.name, type: droppedSkill.type, img: droppedSkill.img, system:{...droppedSkill.system}}];
             await Item.createDocuments(data, {parent: $actor});
     }

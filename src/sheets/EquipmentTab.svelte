@@ -1,16 +1,204 @@
 <script>
+    import {strEncumbered, strMaxLoad} from '../scripts/attributes';
+    import { TJSDocument } from '@typhonjs-fvtt/runtime/svelte/store';
+
     // Sheet and Actor data passed in from base sheet.
    export let sheet;
    export let doc;
    // Set actor variable so we can refer to it later.
    const actor = doc;
+
+    const lightItems = $actor.derived.weight.light
+        + Math.floor($actor.derived.weight.negligible/200);
+    const lightEncumbrance = lightItems - Math.floor(lightItems/5);
+    const encumbrance = $actor.derived.weight.stones 
+        + Math.floor(lightEncumbrance/5);
+    const encumberedWeight = strEncumbered($actor.system.strength.current);
+    const maxWeight = strMaxLoad($actor.system.strength.current);
+    const encumbrancePercent = Math.min(encumbrance/maxWeight*100, 100);
+
+    ////////////////////////////////
+    // Handle Inventory Functions //
+    ////////////////////////////////
+    async function addNewItem()
+    {
+        const data = [{name: 'New Item', type: 'item'}];
+        await Item.createDocuments(data, {parent: $actor});
+    }
+
+    async function deleteItem(item)
+    {
+        console.log(item);
+        await Item.deleteDocuments([item.id], { parent: $actor });
+    }
+
+    async function editItem(item)
+    {
+        item.sheet.render(true);
+    }
+
+    /**
+    * Handles parsing the drop event and sets the new `uuid` or undefined.
+    *
+    * @param {DragEvent}   event -
+    */
+    async function onDrop(event)
+    {
+            const dropped = new TJSDocument();
+            let droppedItem;
+            try
+            {
+                await dropped.setFromDataTransfer(JSON.parse(event.dataTransfer.getData('text/plain')))
+                dropped.subscribe(value => droppedItem = value);
+            }
+            catch (err) { /**/ }
+
+            if ( !$actor.isOwner ) return false;
+            if(droppedItem.type !== 'item') return false;
+            const data = [{name: droppedItem.name, type: droppedItem.type, img: droppedItem.img, system:{...droppedItem.system}}];
+            await Item.createDocuments(data, {parent: $actor});
+    }
 </script>
 
 <!-- This is necessary for Svelte to generate accessors TRL can access for `elementRoot` -->
 <svelte:options accessors={true}/>
 
-<div>Equipment</div>
+<section on:drop|preventDefault|stopPropagation={onDrop}>
+    <div class="seperator"/>
+    <div id="itemsHeader">
+        <i id="addNew" class="editButton fas fa-plus" on:click={addNewItem} />
+    </div>
+    {#each $actor.equipment as item, i}
+    <div class="itemEntry" style:background-color="{i % 2 ? 'rgba(0,0,0,0.05)' : 'transparent'}">
+        <img class="skillImage" src="{item.item.img}" alt="{item.item.name} image." />
+        <div class="itemTitle" on:click={e => item.expanded = !item.expanded}>{item.item.name}</div>
+        <div class="editBlock">
+            <i id="editItem" class="editButton fas fa-pen-to-square" on:click={e => editItem(item.item)} />
+            <i id="deleteItem" class="editButton fas fa-trash" on:click={e => deleteItem(item.item)} />
+        </div>
+    </div>
+    <div class="itemInfo" style:display={item.expanded ? 'flex' : 'none'}>
+        <div class="infoSeperator"/>
+        <div>{@html '<p>Add item description here - needs info compiled from item data + description</p>'}</div>
+    </div>
+    {/each}
+</section>
+<div id="encumbranceProgress">
+    <div id="encumbranceBarBack">
+        <div id="encumbranceBar" 
+            style:width='{encumbrancePercent}%'
+            style:background-color={encumbrancePercent >= 100 ? 'red' : encumbrancePercent > 50 ? 'yellow' : 'blue'}
+            style:border-radius={encumbrancePercent >= 100 ? '0.2rem' : '0.2rem 0 0 0.2rem'}/>
+        <div id="encumbranceValue" class="encumbranceText">Encumbrance {encumbrance} ({lightEncumbrance}/5)L / Encumbered: {encumberedWeight}</div>
+        <div id="encumbranceMax" class="encumbranceText">Max Load: {maxWeight}</div>
+    </div>
+</div>
 
 <style lang="scss">
-    
+    section {
+        height: 46.5rem;
+        overflow-y: auto;
+    }
+
+    .editButton {
+        font-size: 1rem;
+        color: #635d58;
+        margin-right: 0.2rem;
+    }
+
+    .seperator {
+        height: 0.4rem;
+    }
+
+    #itemsHeader {
+        display: flex;
+        justify-content: right;
+        align-items: center;
+        height: 1.2rem;
+        border-bottom: 1px solid black;
+        border-top: 1px solid black;
+        background-color: rgba(0,0,0,0.1);
+        padding: 0.2rem;
+    }
+
+    .itemEntry {
+        display: grid;
+        grid: 1.5rem / 1.5rem auto 3rem;
+        align-items: center;
+        height: 1.7rem;
+        padding: 0.1rem;
+    }
+
+    .itemEntry img {
+        height: 1.5rem;
+        width: 1.5rem;
+    }
+
+    .itemEntry .itemTitle {
+        justify-self: left;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        margin: 0 0.3rem 0 0.3rem;
+        width: 100%;
+        height: 1.5rem;
+    }
+
+    .itemEntry .editBlock {
+        display: flex;
+        justify-self: right;
+    }
+
+    .itemInfo {
+        flex-direction: row;
+        /*margin: 0.2rem 0.2rem 0.2rem 1rem;*/
+        text-align: left;
+    }
+
+    .itemInfo .infoSeperator {
+        width: 0.9rem;
+        margin: 0.4rem 0.8rem 0.4rem 0;
+        border-right: 3px dotted #908d8a;
+    }
+
+    /*
+     * Encumbrance Progress Bar
+     */
+
+    #encumbranceProgress {
+        height: 1rem;
+        width: 90%;
+        margin-left: 2rem;
+    }
+
+    .encumbranceText {
+        position: absolute;
+        top: 0;
+        height: 1rem;
+        font-size: 0.8rem;
+        color: white;
+    }
+
+    #encumbranceValue {
+        left: 0.5rem;
+    }
+
+    #encumbranceMax {
+        right: 0.5rem;
+    }
+
+    #encumbranceBarBack {
+        position: relative;
+        height: 1rem;
+        width: 100%;
+        background-color: darkgray;
+        border-radius: 0.2rem;
+    }
+
+    #encumbranceBar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 1rem;
+    }
 </style>

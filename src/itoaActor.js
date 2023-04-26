@@ -68,7 +68,16 @@ export default class itoaActor extends Actor {
                 }
 
                 // Update carry weight
-                if(item.weightType === 0) { // Stones
+                if(item.weight < 0) { // Negligible
+                    this.derived.weight.negligible++;
+                }
+                else if(item.weight === 0) { // Light
+                    this.derived.weight.light++;
+                }
+                else if(item.weight > 0) { // Stones
+                    this.derived.weight.stones += item.weight;
+                }
+                /*if(item.weightType === 0) { // Stones
                     this.derived.weight.stones += item.weight;
                 }
                 else if(item.weightType === 1) { // Light
@@ -76,7 +85,7 @@ export default class itoaActor extends Actor {
                 }
                 else if(item.weightType === 2) { // Negligible
                     this.derived.weight.negligible += item.weight;
-                }
+                }*/
             }
         });
     }

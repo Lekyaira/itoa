@@ -40,9 +40,10 @@
     "Item": {
         "types": ["item", "skill"],
         "item": {
+            "text": "",
             "price": 0,
+            "quantity": 1,
             "weight": 0,
-            "weightType": 0,
             "equipable": false,
             "wornState": 0,
             "isArmor": false,

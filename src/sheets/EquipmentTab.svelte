@@ -9,6 +9,14 @@
    // Set actor variable so we can refer to it later.
    const actor = doc;
 
+   // Worn state icons
+   const wornStateDropped = "fas fa-grip-lines";
+   const wornStateStowed = "fas fa-sack"; // fa-backpack, fa-cart-flatbed-suitcase
+   const wornStateWorn = "fas fa-shirt";
+   const wornStateOneHand = "fas fa-hand-fist";
+   const wornStateTwoHand = "fas fa-hands-holding";
+
+
    let lightItems;
    let lightEncumbrance;
    let encumbrance;
@@ -84,6 +92,9 @@
 <section on:drop|preventDefault|stopPropagation={onDrop}>
     <div class="seperator"/>
     <div id="itemsHeader">
+        <div class="headerText">Equipment</div>
+        <div class="headerText">Quantity</div>
+        <div class="headerText">Weight</div>
         <i id="addNew" class="editButton fas fa-plus" on:click={addNewItem} />
     </div>
     {#each $actor.equipment as item, i}
@@ -91,13 +102,14 @@
         <img class="skillImage" src="{item.item.img}" alt="{item.item.name} image." />
         <div class="itemTitle" on:click={e => item.expanded = !item.expanded}>{item.item.name}</div>
         <div class="editBlock">
+            <i id="wornItem" class="editButton {wornStateWorn}" />
             <i id="editItem" class="editButton fas fa-pen-to-square" on:click={e => editItem(item.item)} />
             <i id="deleteItem" class="editButton fas fa-trash" on:click={e => deleteItem(item.item)} />
         </div>
     </div>
     <div class="itemInfo" style:display={item.expanded ? 'flex' : 'none'}>
         <div class="infoSeperator"/>
-        <div>{@html '<p>Add item description here - needs info compiled from item data + description</p>'}</div>
+        <div>{@html item.item.system.text}</div>
     </div>
     {/each}
 </section>
@@ -129,14 +141,26 @@
     }
 
     #itemsHeader {
-        display: flex;
-        justify-content: right;
+        display: grid;
+        grid: auto / 18rem 5rem 5rem auto;
         align-items: center;
         height: 1.2rem;
         border-bottom: 1px solid black;
         border-top: 1px solid black;
         background-color: rgba(0,0,0,0.1);
-        padding: 0.2rem;
+        padding: 0 0 0 3rem;
+    }
+
+    #itemsHeader .headerText {
+        color: #635d58;
+        font-weight: bold;
+        font-size: 0.8rem;
+        text-align: left;
+    }
+
+    #itemsHeader #addNew {
+        justify-self: right;
+        margin-right: 0.4rem;
     }
 
     .itemEntry {

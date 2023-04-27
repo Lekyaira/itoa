@@ -67,15 +67,16 @@ export default class itoaActor extends Actor {
                     // TODO: If required strength < strength, add disadvantage
                 }
 
+                console.log(item.system.weight);
                 // Update carry weight
-                if(item.weight < 0) { // Negligible
+                if(item.system.weight < 0) { // Negligible
                     this.derived.weight.negligible++;
                 }
-                else if(item.weight === 0) { // Light
+                else if(item.system.weight === 0) { // Light
                     this.derived.weight.light++;
                 }
-                else if(item.weight > 0) { // Stones
-                    this.derived.weight.stones += item.weight;
+                else if(item.system.weight > 0) { // Stones
+                    this.derived.weight.stones += parseInt(item.system.weight);
                 }
                 /*if(item.weightType === 0) { // Stones
                     this.derived.weight.stones += item.weight;

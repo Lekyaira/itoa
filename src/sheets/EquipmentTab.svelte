@@ -1,6 +1,7 @@
 <script>
-    import {strEncumbered, strMaxLoad} from '../scripts/attributes';
+    import { strEncumbered, strMaxLoad } from '../scripts/attributes';
     import { TJSDocument } from '@typhonjs-fvtt/runtime/svelte/store';
+    import { afterUpdate } from 'svelte';
 
     // Sheet and Actor data passed in from base sheet.
    export let sheet;
@@ -8,14 +9,23 @@
    // Set actor variable so we can refer to it later.
    const actor = doc;
 
-    const lightItems = $actor.derived.weight.light
-        + Math.floor($actor.derived.weight.negligible/200);
-    const lightEncumbrance = lightItems - Math.floor(lightItems/5);
-    const encumbrance = $actor.derived.weight.stones 
-        + Math.floor(lightEncumbrance/5);
-    const encumberedWeight = strEncumbered($actor.system.strength.current);
-    const maxWeight = strMaxLoad($actor.system.strength.current);
-    const encumbrancePercent = Math.min(encumbrance/maxWeight*100, 100);
+   let lightItems;
+   let lightEncumbrance;
+   let encumbrance;
+   let encumberedWeight;
+   let maxWeight;
+   let encumbrancePercent;
+
+    function updateCarryWeight() {
+        lightItems = $actor.derived.weight.light
+            + Math.floor($actor.derived.weight.negligible/200);
+        lightEncumbrance = lightItems - Math.floor(lightItems/5);
+        encumbrance = $actor.derived.weight.stones 
+            + Math.floor(lightEncumbrance/5);
+        encumberedWeight = strEncumbered($actor.system.strength.current);
+        maxWeight = strMaxLoad($actor.system.strength.current);
+        encumbrancePercent = Math.min(encumbrance/maxWeight*100, 100);
+    }
 
     ////////////////////////////////
     // Handle Inventory Functions //
@@ -24,17 +34,20 @@
     {
         const data = [{name: 'New Item', type: 'item'}];
         await Item.createDocuments(data, {parent: $actor});
+        updateCarryWeight();
     }
 
     async function deleteItem(item)
     {
         console.log(item);
         await Item.deleteDocuments([item.id], { parent: $actor });
+        updateCarryWeight();
     }
 
     async function editItem(item)
     {
         item.sheet.render(true);
+        updateCarryWeight();
     }
 
     /**
@@ -57,7 +70,12 @@
             if(droppedItem.type !== 'item') return false;
             const data = [{name: droppedItem.name, type: droppedItem.type, img: droppedItem.img, system:{...droppedItem.system}}];
             await Item.createDocuments(data, {parent: $actor});
+            updateCarryWeight();
     }
+
+    afterUpdate(async () => {
+        updateCarryWeight();
+    });
 </script>
 
 <!-- This is necessary for Svelte to generate accessors TRL can access for `elementRoot` -->
@@ -87,7 +105,7 @@
     <div id="encumbranceBarBack">
         <div id="encumbranceBar" 
             style:width='{encumbrancePercent}%'
-            style:background-color={encumbrancePercent >= 100 ? 'red' : encumbrancePercent > 50 ? 'yellow' : 'blue'}
+            style:background-color={encumbrancePercent >= 100 ? 'red' : encumbrancePercent > 50 ? 'orange' : 'blue'}
             style:border-radius={encumbrancePercent >= 100 ? '0.2rem' : '0.2rem 0 0 0.2rem'}/>
         <div id="encumbranceValue" class="encumbranceText">Encumbrance {encumbrance} ({lightEncumbrance}/5)L / Encumbered: {encumberedWeight}</div>
         <div id="encumbranceMax" class="encumbranceText">Max Load: {maxWeight}</div>
@@ -132,6 +150,7 @@
     .itemEntry img {
         height: 1.5rem;
         width: 1.5rem;
+        border: 0;
     }
 
     .itemEntry .itemTitle {

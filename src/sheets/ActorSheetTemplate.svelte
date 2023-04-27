@@ -358,10 +358,11 @@
       font-size: 1rem;
    }
    #infoHeader .tabButton:hover {
-      width: 2.1rem;
+      transform: scale(1.15);
+      /*width: 2.1rem;
       height: 2.1rem;
       font-size: 1.3rem;
-      margin-right: 0.2rem;
+      margin-right: 0.2rem;*/
    }
    
 </style>

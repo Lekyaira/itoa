@@ -114,31 +114,16 @@
 <!--Attributes-->
          <section id="attributes">
             <div class="attributeBox">
-               <div class="valueLabel">Strength</div>
+               <div class="valueLabel"><div class="attribRoll fas fa-dice-d20"/>Strength</div>
                <input class="valueInput" type="number" min=0 name="system.strength.current" bind:value={$actor.system.strength.current} />
-               <div class="attribRolls">
-                  <div class="attribRoll fas fa-dice-d20"/>
-                  <div class="attribRoll fas fa-plus" />
-                  <div class="attribRoll fas fa-minus" />
-               </div>
             </div>
             <div class="attributeBox">
-               <div class="valueLabel">Wits</div>
+               <div class="valueLabel"><div class="attribRoll fas fa-dice-d20"/>Wits</div>
                <input class="valueInput" type="number" min="0" name="system.wits.current" bind:value={$actor.system.wits.current} />
-               <div class="attribRolls">
-                  <div class="attribRoll fas fa-dice-d20"/>
-                  <div class="attribRoll fas fa-plus" />
-                  <div class="attribRoll fas fa-minus" />
-               </div>
             </div>
             <div class="attributeBox">
-               <div class="valueLabel">Will</div>
+               <div class="valueLabel"><div class="attribRoll fas fa-dice-d20"/>Will</div>
                <input class="valueInput" type="number" min="0" name="system.will.current" bind:value={$actor.system.will.current} />
-               <div class="attribRolls">
-                  <div class="attribRoll fas fa-dice-d20"/>
-                  <div class="attribRoll fas fa-plus" />
-                  <div class="attribRoll fas fa-minus" />
-               </div>
             </div>
          </section>
       </section>
@@ -318,11 +303,17 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 3.4rem;
-      height: 3.4rem;
+      width: 3.6rem;
+      height: 3.6rem;
       border: 1px solid black;
-      border-radius: 0.6rem;
+      border-radius: 0.1rem 0.6rem 0.6rem 0.6rem;
       margin: 0 0.1rem 0 0.1rem;
+   }
+
+   #attributes .valueLabel {
+      width: 100%;
+      text-align: left;
+      margin-left: 0.2rem;
    }
 
    #attributes .valueInput {
@@ -330,12 +321,9 @@
       height: 1.5rem;
    }
 
-   #attributes .attribRolls {
-      display: flex;
-      font-size: 0.7rem;
-   }
    #attributes .attribRoll {
-      margin: 0.1rem 0.1rem 0 0.1rem;
+      font-size: 0.6rem;
+      margin-right: 0.1rem;
    }
 
    /*

@@ -70,13 +70,15 @@ export default class itoaActor extends Actor {
                 if(item.wornState > 0) {    // If it isn't dropped
                     // Update carry weight
                     if(item.system.weight < 0) { // Negligible
-                        this.derived.weight.negligible++;
+                        //this.derived.weight.negligible++;
+                        this.derived.weight.negligible += parseInt(item.system.weight) * parseInt(item.system.quantity);
                     }
                     else if(item.system.weight === 0) { // Light
-                        this.derived.weight.light++;
+                        //this.derived.weight.light++;
+                        this.derived.weight.light += parseInt(item.system.weight) * parseInt(item.system.quantity);
                     }
                     else if(item.system.weight > 0) { // Stones
-                        this.derived.weight.stones += parseInt(item.system.weight);
+                        this.derived.weight.stones += parseInt(item.system.weight) * parseInt(item.system.quantity);
                     }
                 }
             }

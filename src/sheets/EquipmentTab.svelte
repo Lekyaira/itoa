@@ -9,20 +9,33 @@
    // Set actor variable so we can refer to it later.
    const actor = doc;
 
-   // Worn state icons
-   const wornStateDropped = "fas fa-grip-lines";
-   const wornStateStowed = "fas fa-sack"; // fa-backpack, fa-cart-flatbed-suitcase
-   const wornStateWorn = "fas fa-shirt";
-   const wornStateOneHand = "fas fa-hand-fist";
-   const wornStateTwoHand = "fas fa-hands-holding";
+    // wornState:
+    // 0 = dropped
+    // 1 = stowed
+    // 2 = worn
+    // 3 = 1-hand
+    // 4 = 2-hand
+    // Worn state icons
+    const wornStateDropped = "fas fa-grip-lines";
+    const wornStateStowed = "fas fa-sack"; // fa-backpack, fa-cart-flatbed-suitcase
+    const wornStateWorn = "fas fa-shirt";
+    const wornStateOneHand = "fas fa-hand-fist";
+    const wornStateTwoHand = "fas fa-hands-holding";
 
+    function getWornStateIcon(state){
+        if(state <= 0) return wornStateDropped;
+        else if(state === 1) return wornStateStowed;
+        else if(state === 2) return wornStateWorn;
+        else if(state === 3) return wornStateOneHand;
+        else return wornStateTwoHand;
+    }
 
-   let lightItems;
-   let lightEncumbrance;
-   let encumbrance;
-   let encumberedWeight;
-   let maxWeight;
-   let encumbrancePercent;
+    let lightItems;
+    let lightEncumbrance;
+    let encumbrance;
+    let encumberedWeight;
+    let maxWeight;
+    let encumbrancePercent;
 
     function updateCarryWeight() {
         lightItems = $actor.derived.weight.light
@@ -84,6 +97,7 @@
     afterUpdate(async () => {
         updateCarryWeight();
     });
+
 </script>
 
 <!-- This is necessary for Svelte to generate accessors TRL can access for `elementRoot` -->
@@ -102,13 +116,38 @@
         <img class="skillImage" src="{item.item.img}" alt="{item.item.name} image." />
         <div class="itemTitle" on:click={e => item.expanded = !item.expanded}>{item.item.name}</div>
         <div class="itemQuantityBlock">
-            <i class="fas fa-minus" />
-            <div style:width={'2rem'}>0</div>
-            <i class="fas fa-plus" />
+            <i class="fas fa-minus" on:click={() => {
+                item.item.system.quantity > 1 ? item.item.system.quantity-- : '';
+                item.item.update({_id: item.item.id, 'system.quantity': item.item.system.quantity});
+            }} />
+            <div style:width={'2rem'}>{item.item.system.quantity}</div>
+            <i class="fas fa-plus" on:click={() => {
+                item.item.system.quantity++;
+                item.item.update({_id: item.item.id, 'system.quantity': item.item.system.quantity});
+            }} />
+            <div class="itemWeight">{
+                item.item.system.weight < 0 ? '-' : 
+                item.item.system.weight > 0 ? item.item.system.quantity * item.item.system.weight :
+                item.item.system.quantity > 1 ? item.item.system.quantity + 'L' : 'L'
+            }</div>
         </div>
-        <div class="itemWeight">L</div>
+        
         <div class="editBlock">
-            <i id="wornItem" class="editButton {wornStateWorn}" />
+            <i id="wornItem" class="editButton wornPopup {getWornStateIcon(item.item.system.wornState)}" on:click={() => {
+                let popup = document.getElementById(`wornStatePopup${i}`);
+                popup.classList.toggle("show");
+                popup.classList.toggle("hide");
+            }}>
+                <!--wornState Popup-->
+                <div class="wornStatePopup hide" id="wornStatePopup{i}">
+                    <i class="{wornStateDropped}"/> <span class="popupText">Dropped</span>
+                    <i class="{wornStateStowed}" /> <span class="popupText">Stowed</span>
+                    <i class="{wornStateWorn}" /> <span class="popupText">Worn</span>
+                    <i class="{wornStateOneHand}" /> <span class="popupText">1-Hand</span>
+                    <i class="{wornStateTwoHand}" /> <span class="popupText">2-Hand</span>
+                </div>
+                <!--End wornState Popup-->
+            </i>
             <i id="editItem" class="editButton fas fa-pen-to-square" on:click={e => editItem(item.item)} />
             <i id="deleteItem" class="editButton fas fa-trash" on:click={e => deleteItem(item.item)} />
         </div>
@@ -196,6 +235,53 @@
     .itemEntry .editBlock {
         display: flex;
         justify-self: right;
+    }
+
+    .itemEntry .editBlock .wornPopup {
+        position: relative;
+        display: inline-block;
+    }
+
+    .wornPopup .wornStatePopup {
+        visibility: hidden;
+        display: grid;
+        grid: auto / auto auto;
+        width: 8rem;
+        text-align: center;
+        border-radius: 6px;
+        padding: 0.5rem 0;
+        position: absolute;
+        z-index: 1;
+        bottom: -3.8rem;
+        left: -100%;
+        margin-left: -8rem;
+        background-color: #908d8a;
+    }
+
+    .wornPopup .wornStatePopup::after {
+        content: "";
+        position: absolute;
+        top: 20%;
+        left: 100%;
+        border-width: 8px;
+        border-style: solid;
+        border-color: transparent transparent transparent #908d8a;
+    }
+
+    .wornPopup .show {
+        visibility: visible;
+        -webkit-animation: fadeIn 0.5s;
+        animation: fadeIn 0.5s;
+    }
+
+    @-webkit-keyframes fadeIn {
+        from {opacity: 0;}
+        to {opacity: 1;}
+    }
+
+    @keyframes fadeIn {
+        from {opacity: 0;}
+        to {opacity: 1;}
     }
 
     .itemEntry .itemQuantityBlock {

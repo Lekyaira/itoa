@@ -116,18 +116,29 @@
             <div class="attributeBox">
                <div class="valueLabel">Strength</div>
                <input class="valueInput" type="number" min=0 name="system.strength.current" bind:value={$actor.system.strength.current} />
-               <!--<div class="attribValueBox">
-                  <div class="attribRoll fas fa-dice-d20" />
-                  <input class="attribValue" type="number" min="0" name="system.strength.current" bind:value={$actor.system.strength.current} />
-               </div>-->
+               <div class="attribRolls">
+                  <div class="attribRoll fas fa-dice-d20"/>
+                  <div class="attribRoll fas fa-plus" />
+                  <div class="attribRoll fas fa-minus" />
+               </div>
             </div>
             <div class="attributeBox">
                <div class="valueLabel">Wits</div>
                <input class="valueInput" type="number" min="0" name="system.wits.current" bind:value={$actor.system.wits.current} />
+               <div class="attribRolls">
+                  <div class="attribRoll fas fa-dice-d20"/>
+                  <div class="attribRoll fas fa-plus" />
+                  <div class="attribRoll fas fa-minus" />
+               </div>
             </div>
             <div class="attributeBox">
                <div class="valueLabel">Will</div>
                <input class="valueInput" type="number" min="0" name="system.will.current" bind:value={$actor.system.will.current} />
+               <div class="attribRolls">
+                  <div class="attribRoll fas fa-dice-d20"/>
+                  <div class="attribRoll fas fa-plus" />
+                  <div class="attribRoll fas fa-minus" />
+               </div>
             </div>
          </section>
       </section>
@@ -317,6 +328,14 @@
    #attributes .valueInput {
       width: 2.8rem;
       height: 1.5rem;
+   }
+
+   #attributes .attribRolls {
+      display: flex;
+      font-size: 0.7rem;
+   }
+   #attributes .attribRoll {
+      margin: 0.1rem 0.1rem 0 0.1rem;
    }
 
    /*

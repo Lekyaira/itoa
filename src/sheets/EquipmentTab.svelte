@@ -101,6 +101,12 @@
     <div class="itemEntry" style:background-color="{i % 2 ? 'rgba(0,0,0,0.05)' : 'transparent'}">
         <img class="skillImage" src="{item.item.img}" alt="{item.item.name} image." />
         <div class="itemTitle" on:click={e => item.expanded = !item.expanded}>{item.item.name}</div>
+        <div class="itemQuantityBlock">
+            <i class="fas fa-minus" />
+            <div style:width={'2rem'}>0</div>
+            <i class="fas fa-plus" />
+        </div>
+        <div class="itemWeight">L</div>
         <div class="editBlock">
             <i id="wornItem" class="editButton {wornStateWorn}" />
             <i id="editItem" class="editButton fas fa-pen-to-square" on:click={e => editItem(item.item)} />
@@ -155,7 +161,7 @@
         color: #635d58;
         font-weight: bold;
         font-size: 0.8rem;
-        text-align: left;
+        text-align: center;
     }
 
     #itemsHeader #addNew {
@@ -165,7 +171,7 @@
 
     .itemEntry {
         display: grid;
-        grid: 1.5rem / 1.5rem auto 3rem;
+        grid: 1.5rem / 1.5rem 19.4rem 5rem 5rem auto;
         align-items: center;
         height: 1.7rem;
         padding: 0.1rem;
@@ -190,6 +196,12 @@
     .itemEntry .editBlock {
         display: flex;
         justify-self: right;
+    }
+
+    .itemEntry .itemQuantityBlock {
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .itemInfo {

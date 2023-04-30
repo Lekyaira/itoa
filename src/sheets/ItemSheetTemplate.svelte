@@ -91,12 +91,12 @@
             <option value=2>Stone</option>
          </select>
          <label class="indented" style:display={weightType > 1 ? 'initial' : 'none'}>Stones</label><input type="number" min="0" name="system.weight" bind:value={$item.system.weight} style:display={weightType > 1 ? 'initial' : 'none'} />   
-         <label>Equipable</label><input type="checkbox" name="system.equipable" bind:checked={$item.system.equipable} />
-         <label>Armor</label><input type="checkbox" name="system.isArmor" bind:checked={$item.system.isArmor} >
-         <label class="indented" style:display={$item.system.isArmor ? 'initial' : 'none'}>Value</label><input type="number" min="1" name="system.armor" bind:value={$item.system.armor} style:display={$item.system.isArmor ? 'initial' : 'none'}/>
-         <label>Shield</label><input type="checkbox" name="system.isShield" bind:checked={$item.system.isShield} />
-         <label class="indented" style:display={$item.system.isShield ? 'initial' : 'none'}>Hardness</label><input type="number" min="0" name="system.shield.hardness" bind:value={$item.system.shield.hardness} style:display={$item.system.isShield ? 'initial' : 'none'} />
-         <label class="indented" style:display={$item.system.isShield ? 'initial' : 'none'}>HP</label><input type="number" min="1" name="system.shield.hp" bind:value={$item.system.shield.hp} style:display={$item.system.isShield ? 'initial' : 'none'} />
+         <label>Equipment</label><input type="checkbox" name="system.equipable" bind:checked={$item.system.equipable} />
+         <label class="indented" style:display={$item.system.equipable ? 'initial' : 'none'}>Armor</label><input type="checkbox" name="system.isArmor" bind:checked={$item.system.isArmor} style:display={$item.system.equipable ? 'initial' : 'none'} >
+         <label class="indented2" style:display={$item.system.equipable && $item.system.isArmor? 'initial' : 'none'}>Value</label><input type="number" min="1" name="system.armor" bind:value={$item.system.armor} style:display={$item.system.equipable && $item.system.isArmor ? 'initial' : 'none'}/>
+         <label class="indented" style:display={$item.system.equipable ? 'initial' : 'none'}>Shield</label><input type="checkbox" name="system.isShield" bind:checked={$item.system.isShield} style:display={$item.system.equipable ? 'initial' : 'none'} />
+         <label class="indented2" style:display={$item.system.equipable && $item.system.isShield ? 'initial' : 'none'}>Hardness</label><input type="number" min="0" name="system.shield.hardness" bind:value={$item.system.shield.hardness} style:display={$item.system.equipable && $item.system.isShield ? 'initial' : 'none'} />
+         <label class="indented2" style:display={$item.system.equipable && $item.system.isShield ? 'initial' : 'none'}>HP</label><input type="number" min="1" name="system.shield.hp" bind:value={$item.system.shield.hp} style:display={$item.system.equipable && $item.system.isShield ? 'initial' : 'none'} />
          <label>Speed Modifier</label><input type="number" min="0" name="system.speedMod" bind:value={$item.system.speedMod} />
          <label>Dodge Modifier</label><input type="number" min="0" name="system.dodgeMod" bind:value={$item.system.dodgeMod} />
          <label>Required Strength</label><input type="number" min="0" name="system.requiredStr" bind:value={$item.system.requiredStr} />
@@ -221,5 +221,9 @@
 
    #contentSidebar .indented {
       margin-left: 1rem;
+   }
+
+   #contentSidebar .indented2 {
+      margin-left: 2rem;
    }
  </style>

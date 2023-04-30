@@ -140,12 +140,12 @@
                 item.item.system.quantity++;
                 item.item.update({_id: item.item.id, 'system.quantity': item.item.system.quantity});
             }} />
-            <div class="itemWeight">{
-                item.item.system.weight < 0 ? '-' : 
-                item.item.system.weight > 0 ? item.item.system.quantity * item.item.system.weight :
-                item.item.system.quantity > 1 ? item.item.system.quantity + 'L' : 'L'
-            }</div>
         </div>
+        <div class="itemWeight">{
+            item.item.system.weight < 0 ? '-' : 
+            item.item.system.weight > 0 ? item.item.system.quantity * item.item.system.weight :
+            item.item.system.quantity > 1 ? item.item.system.quantity + 'L' : 'L'
+        }</div>
         
         <div class="editBlock">
             <i id="wornItem{i}" class="editButton wornPopup {getWornStateIcon(item.item.system.wornState)}" on:click={() => {

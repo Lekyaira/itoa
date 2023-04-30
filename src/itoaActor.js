@@ -56,11 +56,11 @@ export default class itoaActor extends Actor {
                 // 3 = 1-hand
                 // 4 = 2-hand
                 // Item is equipped, modify stats
-                if(item.equipable && item.wornState > 1) {
-                    if(item.isArmor) this.derived.armor = Math.max(this.derived.armor, item.armor);
-                    if(item.isShield) {
-                        this.derived.shield.hardness = item.shield.hardness;
-                        this.derived.shield.hp = item.shield.hp;
+                if(item.system.equipable && item.system.wornState > 1) {
+                    if(item.system.isArmor) this.derived.armor = Math.max(this.derived.armor, item.system.armor);
+                    if(item.system.isShield) {
+                        this.derived.shield.hardness = item.system.shield.hardness;
+                        this.derived.shield.hp = item.system.shield.hp;
                     }
                     // TODO: Speed modifier
                     // TODO: Dodge modifier

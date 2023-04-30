@@ -45,7 +45,7 @@
             "quantity": 1,
             "weight": 0,
             "equipable": false,
-            "wornState": 0,
+            "wornState": 1,
             "isArmor": false,
             "armor": 0,
             "isShield": false,

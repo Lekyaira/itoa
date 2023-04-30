@@ -1,5 +1,6 @@
 <script>
     import { strEncumbered, strMaxLoad } from '../scripts/attributes';
+    import { convertPxToRem } from '../scripts/rempx';
     import { TJSDocument } from '@typhonjs-fvtt/runtime/svelte/store';
     import { afterUpdate } from 'svelte';
 
@@ -28,6 +29,19 @@
         else if(state === 2) return wornStateWorn;
         else if(state === 3) return wornStateOneHand;
         else return wornStateTwoHand;
+    }
+
+    function setWornState(item, state) {
+        if(item){
+            item.system.wornState = state;
+            item.update({_id: item.id, 'system.wornState': state});
+        }
+    }
+
+    let wornStatePopup = {
+        left: 0,
+        top: 0,
+        rowItem: undefined
     }
 
     let lightItems;
@@ -133,21 +147,15 @@
         </div>
         
         <div class="editBlock">
-            <i id="wornItem" class="editButton wornPopup {getWornStateIcon(item.item.system.wornState)}" on:click={() => {
-                let popup = document.getElementById(`wornStatePopup${i}`);
+            <i id="wornItem{i}" class="editButton wornPopup {getWornStateIcon(item.item.system.wornState)}" on:click={() => {
+                //let row = document.getElementById(`wornItem${i}`);
+                let row = window.$(`#wornItem${i}`);
+                wornStatePopup.rowItem = item.item;
+                wornStatePopup.top = row.position().top;
+                wornStatePopup.left = row.position().left;
+                let popup = document.getElementById(`wornStatePopup`);
                 popup.classList.toggle("show");
-                popup.classList.toggle("hide");
-            }}>
-                <!--wornState Popup-->
-                <div class="wornStatePopup hide" id="wornStatePopup{i}">
-                    <i class="{wornStateDropped}"/> <span class="popupText">Dropped</span>
-                    <i class="{wornStateStowed}" /> <span class="popupText">Stowed</span>
-                    <i class="{wornStateWorn}" /> <span class="popupText">Worn</span>
-                    <i class="{wornStateOneHand}" /> <span class="popupText">1-Hand</span>
-                    <i class="{wornStateTwoHand}" /> <span class="popupText">2-Hand</span>
-                </div>
-                <!--End wornState Popup-->
-            </i>
+            }}/>
             <i id="editItem" class="editButton fas fa-pen-to-square" on:click={e => editItem(item.item)} />
             <i id="deleteItem" class="editButton fas fa-trash" on:click={e => deleteItem(item.item)} />
         </div>
@@ -168,6 +176,48 @@
         <div id="encumbranceMax" class="encumbranceText">Max Load: {maxWeight}</div>
     </div>
 </div>
+<!--wornState Popup-->
+<div class="wornStatePopup" id="wornStatePopup" 
+    style:left='{convertPxToRem(wornStatePopup.left)-9}rem' 
+    style:top='{convertPxToRem(wornStatePopup.top)-1.2}rem'
+>
+    <div on:click={() => {
+        setWornState(wornStatePopup.rowItem, 0);
+        document.getElementById('wornStatePopup').classList.toggle('show');
+    }}>
+        <i class="{wornStateDropped}"/> 
+        <span class="popupText">Dropped</span>
+    </div>
+    <div on:click={() => {
+        setWornState(wornStatePopup.rowItem, 1);
+        document.getElementById('wornStatePopup').classList.toggle('show');
+    }}>
+        <i class="{wornStateStowed}" />
+        <span class="popupText">Stowed</span>
+    </div>
+    <div on:click={() => {
+        setWornState(wornStatePopup.rowItem, 2);
+        document.getElementById('wornStatePopup').classList.toggle('show');
+    }}>
+        <i class="{wornStateWorn}" />
+        <span class="popupText">Worn</span>
+    </div>
+    <div on:click={() => {
+        setWornState(wornStatePopup.rowItem, 3);
+        document.getElementById('wornStatePopup').classList.toggle('show');
+    }}>
+        <i class="{wornStateOneHand}" />
+        <span class="popupText">1-Hand</span>
+    </div>
+    <div on:click={() => {
+        setWornState(wornStatePopup.rowItem, 4);
+        document.getElementById('wornStatePopup').classList.toggle('show');
+    }}>
+        <i class="{wornStateTwoHand}" />
+        <span class="popupText">2-Hand</span>
+    </div>
+</div>
+<!--End wornState Popup-->
 
 <style lang="scss">
     section {
@@ -242,23 +292,29 @@
         display: inline-block;
     }
 
-    .wornPopup .wornStatePopup {
+    .wornStatePopup {
         visibility: hidden;
-        display: grid;
-        grid: auto / auto auto;
+        display: flex;
+        flex-direction: column;
         width: 8rem;
         text-align: center;
         border-radius: 6px;
         padding: 0.5rem 0;
         position: absolute;
         z-index: 1;
-        bottom: -3.8rem;
-        left: -100%;
-        margin-left: -8rem;
+        /*bottom: 0;
+        left: 0;
+        margin-left: 0;*/
         background-color: #908d8a;
     }
 
-    .wornPopup .wornStatePopup::after {
+    .wornStatePopup > div {
+        display: grid;
+        grid: auto / 1rem auto;
+        padding: 0 1rem 0 1rem;
+    }
+
+    .wornStatePopup::after {
         content: "";
         position: absolute;
         top: 20%;
@@ -268,20 +324,8 @@
         border-color: transparent transparent transparent #908d8a;
     }
 
-    .wornPopup .show {
+    .show {
         visibility: visible;
-        -webkit-animation: fadeIn 0.5s;
-        animation: fadeIn 0.5s;
-    }
-
-    @-webkit-keyframes fadeIn {
-        from {opacity: 0;}
-        to {opacity: 1;}
-    }
-
-    @keyframes fadeIn {
-        from {opacity: 0;}
-        to {opacity: 1;}
     }
 
     .itemEntry .itemQuantityBlock {

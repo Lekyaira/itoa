@@ -67,7 +67,8 @@ export default class itoaActor extends Actor {
                     // TODO: If required strength < strength, add disadvantage
                 }
 
-                if(item.wornState > 0) {    // If it isn't dropped
+                if(item.system.wornState > 0) {    // If it isn't dropped
+                    console.log(item.system.wornState);
                     // Update carry weight
                     if(item.system.weight < 0) { // Negligible
                         //this.derived.weight.negligible++;

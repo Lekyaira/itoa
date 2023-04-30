@@ -55,9 +55,9 @@
     function updateCarryWeight() {
         lightItems = $actor.derived.weight.light
             + Math.floor($actor.derived.weight.negligible/200);
-        lightEncumbrance = lightItems - Math.floor(lightItems/5);
+        lightEncumbrance = lightItems % 5;
         encumbrance = $actor.derived.weight.stones 
-            + Math.floor(lightEncumbrance/5);
+            + Math.floor(lightItems/5);
         encumberedWeight = strEncumbered($actor.system.strength.current);
         maxWeight = strMaxLoad($actor.system.strength.current);
         encumbrancePercent = Math.min(encumbrance/maxWeight*100, 100);
@@ -135,7 +135,7 @@
                 item.item.system.quantity > 1 ? item.item.system.quantity-- : '';
                 item.item.update({_id: item.item.id, 'system.quantity': item.item.system.quantity});
             }} />
-            <div style:width={'2rem'}>{item.item.system.quantity}</div>
+            <div style:width={'3rem'}>{item.item.system.quantity}</div>
             <i class="fas fa-plus" on:click={() => {
                 item.item.system.quantity++;
                 item.item.update({_id: item.item.id, 'system.quantity': item.item.system.quantity});
@@ -146,7 +146,6 @@
             item.item.system.weight > 0 ? item.item.system.quantity * item.item.system.weight :
             item.item.system.quantity > 1 ? item.item.system.quantity + 'L' : 'L'
         }</div>
-        
         <div class="editBlock">
             <i id="wornItem{i}" class="editButton wornPopup {getWornStateIcon(item.item.system.wornState)}" on:click={() => {
                 //let row = document.getElementById(`wornItem${i}`);
@@ -173,7 +172,7 @@
             style:width='{encumbrancePercent}%'
             style:background-color={encumbrancePercent >= 100 ? 'red' : encumbrancePercent > 50 ? 'orange' : 'blue'}
             style:border-radius={encumbrancePercent >= 100 ? '0.2rem' : '0.2rem 0 0 0.2rem'}/>
-        <div id="encumbranceValue" class="encumbranceText">Encumbrance {encumbrance} ({lightEncumbrance}/5)L / Encumbered: {encumberedWeight}</div>
+        <div id="encumbranceValue" class="encumbranceText">Encumbrance {encumbrance}{lightEncumbrance > 0 ? `; ${lightEncumbrance}L` : ''} / Encumbered: {encumberedWeight}</div>
         <div id="encumbranceMax" class="encumbranceText">Max Load: {maxWeight}</div>
     </div>
 </div>

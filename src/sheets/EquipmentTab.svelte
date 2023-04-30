@@ -63,6 +63,37 @@
         encumbrancePercent = Math.min(encumbrance/maxWeight*100, 100);
     }
 
+    function getWeightStr(item) {
+            const itemWeight = item.system.weight;
+            const itemQty = item.system.quantity;
+
+            ///// Negligible Weight
+            let negligibleWeight = false;
+            if(itemWeight < 0 && itemQty < 200) negligibleWeight = true;
+
+            ///// Light Weight
+            let lightWeight = 0;
+            // Negligible case
+            if(itemWeight < 0) lightWeight = Math.floor(itemQty / 200) % 5;
+            // Light case
+            else if(itemWeight === 0) lightWeight = itemQty % 5;
+
+            ///// Stone Weight
+            let stoneWeight = 0;
+            // Stones case
+            if(itemWeight > 0) stoneWeight = itemWeight * itemQty;
+            // Light case
+            else if(itemWeight === 0) stoneWeight = Math.floor(itemQty / 5);
+            // Negligible case
+            else if(itemWeight < 0) stoneWeight = Math.floor(itemQty / 1000);
+
+            const outArr = [];
+            if(negligibleWeight) outArr.push('-');
+            if(stoneWeight > 0) outArr.push(`${stoneWeight}`);
+            if(lightWeight > 0) outArr.push(`${lightWeight}L`);
+            return outArr.join(' ');
+        }
+
     ////////////////////////////////
     // Handle Inventory Functions //
     ////////////////////////////////
@@ -141,11 +172,7 @@
                 item.item.update({_id: item.item.id, 'system.quantity': item.item.system.quantity});
             }} />
         </div>
-        <div class="itemWeight">{
-            item.item.system.weight < 0 ? '-' : 
-            item.item.system.weight > 0 ? item.item.system.quantity * item.item.system.weight :
-            item.item.system.quantity > 1 ? item.item.system.quantity + 'L' : 'L'
-        }</div>
+        <div class="itemWeight">{getWeightStr(item.item)}</div>
         <div class="editBlock">
             <i id="wornItem{i}" class="editButton wornPopup {getWornStateIcon(item.item.system.wornState)}" on:click={() => {
                 //let row = document.getElementById(`wornItem${i}`);

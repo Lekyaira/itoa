@@ -160,7 +160,7 @@
     {#each $actor.equipment as item, i}
     <div class="itemEntry" style:background-color="{i % 2 ? 'rgba(0,0,0,0.05)' : 'transparent'}">
         <img class="skillImage" src="{item.item.img}" alt="{item.item.name} image." />
-        <div class="itemTitle" on:click={e => item.expanded = !item.expanded}>{item.item.name}</div>
+        <div class="itemTitle" on:click={e => {if(item.item.system.text !== '') item.expanded = !item.expanded}}>{item.item.name}</div>
         <div class="itemQuantityBlock">
             <i class="fas fa-minus" on:click={() => {
                 item.item.system.quantity > 1 ? item.item.system.quantity-- : '';

@@ -27,7 +27,15 @@
                 // Create update data with our document id.
                 let docData = {_id: $doc.id};
                 // Get the calling element's name and value and update the data.
-                docData[window.$(this).attr('name')] = window.$(this).val();
+                let val;
+                if(window.$(this).attr("type") === 'checkbox'){
+                    val = window.$(this).is(":checked");
+                }
+                else {
+                    val = window.$(this).val();
+                }
+                docData[window.$(this).attr('name')] = val;
+                console.log('input changed', docData);
                 // Update our document with the changes.
                 $doc.update(docData);
             });

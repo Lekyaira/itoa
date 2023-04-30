@@ -1,9 +1,9 @@
 <script>
    import { each } from "svelte/internal";
    import {getContext} from "svelte";
-   import CharacterInfoTab from './CharacterInfoTab.svelte';
-   import SkillsTab from './SkillsTab.svelte';
-   import EquipmentTab from './EquipmentTab.svelte';
+   import CharacterInfoTab from './tabs/CharacterInfoTab.svelte';
+   import SkillsTab from './tabs/SkillsTab.svelte';
+   import EquipmentTab from './tabs/EquipmentTab.svelte';
 
    // Sheet and Actor data passed in from base sheet.
    export let sheet;

@@ -1,4 +1,4 @@
-import itoaBaseSheet from "../core/itoaBaseSheet";
+import itoaBaseSheet from "../../core/itoaBaseSheet";
 import ActorSheetTemplate from "./ActorSheetTemplate.svelte";
 
 export default class itoaActorSheet extends itoaBaseSheet

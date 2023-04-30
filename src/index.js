@@ -1,9 +1,9 @@
 import itoaActor from './itoaActor.js';
 import itoaItem from './itoaItem.js';
 
-import itoaActorSheet from './sheets/itoaActorSheet.js';
-import itoaItemSheet from './sheets/itoaItemSheet.js';
-import itoaSkillSheet from './sheets/itoaSkillSheet.js';
+import itoaActorSheet from './sheets/actor/itoaActorSheet.js';
+import itoaItemSheet from './sheets/item/itoaItemSheet.js';
+import itoaSkillSheet from './sheets/skill/itoaSkillSheet.js';
 
 Hooks.once("init", async () => 
 {

@@ -1,6 +1,6 @@
 <script>
-    import { strEncumbered, strMaxLoad } from '../scripts/attributes';
-    import { convertPxToRem } from '../scripts/rempx';
+    import { strEncumbered, strMaxLoad } from '../../../scripts/attributes';
+    import { convertPxToRem } from '../../../scripts/rempx';
     import { TJSDocument } from '@typhonjs-fvtt/runtime/svelte/store';
     import { afterUpdate } from 'svelte';
 

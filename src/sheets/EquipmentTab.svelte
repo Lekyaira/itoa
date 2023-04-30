@@ -35,6 +35,7 @@
         if(item){
             item.system.wornState = state;
             item.update({_id: item.id, 'system.wornState': state});
+            document.getElementById('wornStatePopup').classList.toggle('show');
         }
     }
 
@@ -181,38 +182,23 @@
     style:left='{convertPxToRem(wornStatePopup.left)-9}rem' 
     style:top='{convertPxToRem(wornStatePopup.top)-1.2}rem'
 >
-    <div on:click={() => {
-        setWornState(wornStatePopup.rowItem, 0);
-        document.getElementById('wornStatePopup').classList.toggle('show');
-    }}>
+    <div on:click={() => setWornState(wornStatePopup.rowItem, 0) }>
         <i class="{wornStateDropped}"/> 
         <span class="popupText">Dropped</span>
     </div>
-    <div on:click={() => {
-        setWornState(wornStatePopup.rowItem, 1);
-        document.getElementById('wornStatePopup').classList.toggle('show');
-    }}>
+    <div on:click={() => setWornState(wornStatePopup.rowItem, 1) }>
         <i class="{wornStateStowed}" />
         <span class="popupText">Stowed</span>
     </div>
-    <div on:click={() => {
-        setWornState(wornStatePopup.rowItem, 2);
-        document.getElementById('wornStatePopup').classList.toggle('show');
-    }}>
+    <div on:click={() => setWornState(wornStatePopup.rowItem, 2) }>
         <i class="{wornStateWorn}" />
         <span class="popupText">Worn</span>
     </div>
-    <div on:click={() => {
-        setWornState(wornStatePopup.rowItem, 3);
-        document.getElementById('wornStatePopup').classList.toggle('show');
-    }}>
+    <div on:click={() => setWornState(wornStatePopup.rowItem, 3) }>
         <i class="{wornStateOneHand}" />
         <span class="popupText">1-Hand</span>
     </div>
-    <div on:click={() => {
-        setWornState(wornStatePopup.rowItem, 4);
-        document.getElementById('wornStatePopup').classList.toggle('show');
-    }}>
+    <div on:click={() => setWornState(wornStatePopup.rowItem, 4) }>
         <i class="{wornStateTwoHand}" />
         <span class="popupText">2-Hand</span>
     </div>

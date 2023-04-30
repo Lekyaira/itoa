@@ -273,6 +273,11 @@
         justify-self: right;
     }
 
+    .editBlock i {
+        width: 1.2rem;
+        text-align: center;
+    }
+
     .itemEntry .editBlock .wornPopup {
         position: relative;
         display: inline-block;

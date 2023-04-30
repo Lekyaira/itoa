@@ -144,6 +144,18 @@
         updateCarryWeight();
     });
 
+    function postItemText(item) {
+        const msg = `
+            <div style="display:flex;border-bottom:1px solid black;padding:0.1rem;">
+                <img src="${item.img}" style="width:2rem;height:2rem;border:none;margin-right:0.5rem;"/>
+                <span style="font-size:1.5rem;">${item.name}</span>
+            </div>
+            <div class="description">
+                ${item.system.text}
+            </div>`;
+        ChatMessage.create({content: msg});
+    }
+
 </script>
 
 <!-- This is necessary for Svelte to generate accessors TRL can access for `elementRoot` -->
@@ -159,7 +171,10 @@
     </div>
     {#each $actor.equipment as item, i}
     <div class="itemEntry" style:background-color="{i % 2 ? 'rgba(0,0,0,0.05)' : 'transparent'}">
-        <img class="skillImage" src="{item.item.img}" alt="{item.item.name} image." />
+        <div class="itemImage" on:click={() => postItemText(item.item)}>
+            <img src="{item.item.img}" alt="{item.item.name} image."/>
+            <i class="fas fa-message"/>
+        </div>
         <div class="itemTitle" on:click={e => {if(item.item.system.text !== '') item.expanded = !item.expanded}}>{item.item.name}</div>
         <div class="itemQuantityBlock">
             <i class="fas fa-minus" on:click={() => {
@@ -278,10 +293,33 @@
         padding: 0.1rem;
     }
 
-    .itemEntry img {
+    .itemImage {
+        position: relative;
+    }
+
+    .itemImage img {
         height: 1.5rem;
         width: 1.5rem;
         border: 0;
+    }
+
+    .itemImage i {
+        visibility: hidden;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 1.5rem;
+        width: 1.5rem;
+        top: 0;
+        left: 0;
+        font-size: 1rem;
+        color: #dddcdb;
+        text-shadow: 1px 1px 2px black;
+    }
+
+    .itemImage:hover i {
+        visibility: visible;
     }
 
     .itemEntry .itemTitle {

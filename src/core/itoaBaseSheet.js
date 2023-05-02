@@ -19,7 +19,7 @@ export default class itoaBaseSheet extends SvelteApplication {
         // in the inner sheet template.
     ) {
         super(options); // SvelteApplication doesn't need object.
-
+        
         // Save our document object for later use.
         this.object = object;
         // this.object = object;

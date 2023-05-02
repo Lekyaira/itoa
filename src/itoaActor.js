@@ -84,4 +84,10 @@ export default class itoaActor extends Actor {
             }
         });
     }
+
+    /*async update(data={}, context={}) {
+        //super.update(data, context);
+
+        console.log(context);
+    }*/
 }

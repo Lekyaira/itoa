@@ -54,16 +54,16 @@
 <svelte:options accessors={true}/>
 
 <section id="stats">
-    <!--HP-->
+
+<!--HP-->
     <section id="hpBlock">
         <div class="hpBox">
             <div class="valueLabel">HP</div>
-            <input class="valueInput" type="number" min=0 name="system.hp.current" bind:value={$actor.system.hp.current} />
+            <input class="valueInput{$actor.system.hp.current <= 0 ? ' lowHP' : ''}" type="number" min=0 name="system.hp.current" bind:value={$actor.system.hp.current} />
             <div class='valueLabel'>Base {$actor.system.hp.base}</div>
         </div>
-        
-        
     </section>
+
 <!--Armor-->
     <section id="armorBlock">
     <div class="armorBox">
@@ -85,6 +85,7 @@
         </div>
     </div>
     </section>
+
 <!--Attributes-->
     <section id="attributes">
     <div class="attributeBox">
@@ -115,6 +116,7 @@
             </div>
         </div>
     </section>
+
 </section>
 
 <style lang="scss">
@@ -170,6 +172,10 @@
         font-size: 3.5rem;
         width: 6rem;
         height: 3.5rem;
+    }
+
+    #hpBlock .lowHP {
+        color: red;
     }
 
     /*

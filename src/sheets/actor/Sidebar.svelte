@@ -85,7 +85,7 @@
                 <span class="verticalDivider"/>
                 <span class="right">
                     <span class="valueLabel">Max</span>
-                    <input class="valueInput" type="number" min=0 name="derived.shield.hpMax" bind:value={$actor.derived.shield.hpMax} />
+                    <span class="valueInput">{$actor.derived.shield.hpMax}</span>
                 </span>
             </span>
         </div>

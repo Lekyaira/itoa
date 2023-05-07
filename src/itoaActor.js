@@ -25,7 +25,8 @@ export default class itoaActor extends Actor {
             armor: 0,
             shield: {
                 hardness: 0,
-                hp: 0
+                hp: 0,
+                hpMax: 0
             },
             weight: {
                 stones: 0,

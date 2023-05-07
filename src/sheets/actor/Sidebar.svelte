@@ -67,9 +67,12 @@
 <!--Armor-->
     <section id="armorBlock">
     <div class="armorBox">
-        <div class="valueLabel"> </div>
-        <div class="valueLabel">Armor</div>
-        <input class="valueInput" type="number" min=0 name="derived.armor" bind:value={$actor.derived.armor} />
+        <span class="valueLabel top">Armor</span>
+        <span class="valueInput">{$actor.derived.armor}</span>
+        <span class="bottom">
+            <span class="valueLabel">Mod</span>
+            <input class="valueInput" type="number" min=0 name="system.armorMod" bind:value={$actor.system.armorMod} />
+        </span>
     </div>
     <div class="armorBox">
         <div class="valueLabel">Shield</div>
@@ -210,12 +213,42 @@
         margin: 0.2rem;
         border: 1px solid black;
         border-radius: 0.2rem;
-        height: 4.5rem;
+        height: 5.2rem;
     }
 
     #armorBlock .valueInput {
         width: 3rem;
-        height: 2rem;
+        height: 3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #armorBlock span {
+        width: 100%;
+    }
+
+    #armorBlock span > .valueInput {
+        font-size: 0.7rem;
+        height: 0.8rem;
+        width: 1.2rem;
+        min-width: 1.2rem;
+    }
+
+    #armorBlock .top {
+        border-bottom: 1px solid black;
+        
+    }
+
+    #armorBlock .bottom {
+        border-top: 1px solid black;
+        display: flex;
+        justify-content: center;
+        align-items: baseline;
+    }
+
+    #armorBlock .bottom .valueLabel {
+        text-align: right;
     }
 
     #armorBlock #shieldBlock {

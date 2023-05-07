@@ -1,4 +1,6 @@
 <script>
+   import { action_destroyer } from "svelte/internal";
+
     // Sheet and Actor data passed in from base sheet.
    export let sheet;
    export let doc;
@@ -7,7 +9,7 @@
 
     // Hero points
     let heroPoints = $actor.system.heropoints;
-    function heropointClick() {
+    async function heropointClick() {
         if(heroPoints >= 5) return;
         heroPoints++;
         // Update our document with the changes.
@@ -15,12 +17,36 @@
         $actor.update(data, {action: 'heropointClick'});
     }
 
-    function heropointRightClick() {
+    async function heropointRightClick() {
         if(heroPoints <= 0) return;
         heroPoints--;
         // Update our document with the changes.
         let data = {'system.heropoints': heroPoints};
         $actor.update(data, {action: 'heropointRightClick'});
+    }
+
+    // Saves
+    async function rollSave(attribute) {
+        let saveValue = null;
+        if(attribute === 'strength') saveValue = $actor.system.strength.current;
+        else if(attribute === 'wits') saveValue = $actor.system.wits.current;
+        else if(attribute === 'will') saveValue = $actor.system.will.current;
+        else throw 'Must choose a valid attribute!';
+
+        // TODO: Replace this with a standardized roll dialog
+        const roll = await new Roll('1d20').roll();
+        let success = roll.total <= saveValue ? true : false;
+        if(roll.total == 20) success = true;
+        if(roll.total == 1) success = false;
+
+        const message = `
+            <div>
+                <h2>${attribute.charAt(0).toUpperCase() + attribute.slice(1)} Save</h2>
+                <span style='color: ${success ? "green" : "red"};'>${success ? "Success!" : "Fail!"}</span>
+            </div>
+        `;
+
+        roll.toMessage({flavor: message});
     }
 </script>
 
@@ -62,15 +88,15 @@
 <!--Attributes-->
     <section id="attributes">
     <div class="attributeBox">
-        <div class="valueLabel"><div class="attribRoll fas fa-dice-d20"/>Strength</div>
+        <div class="valueLabel" on:click={() => rollSave('strength')}><div class="attribRoll fas fa-dice-d20"/>Strength</div>
         <input class="valueInput" type="number" min=0 name="system.strength.current" bind:value={$actor.system.strength.current} />
     </div>
     <div class="attributeBox">
-        <div class="valueLabel"><div class="attribRoll fas fa-dice-d20"/>Wits</div>
+        <div class="valueLabel" on:click={() => rollSave('wits')}><div class="attribRoll fas fa-dice-d20"/>Wits</div>
         <input class="valueInput" type="number" min="0" name="system.wits.current" bind:value={$actor.system.wits.current} />
     </div>
     <div class="attributeBox">
-        <div class="valueLabel"><div class="attribRoll fas fa-dice-d20"/>Will</div>
+        <div class="valueLabel" on:click={() => rollSave('will')}><div class="attribRoll fas fa-dice-d20"/>Will</div>
         <input class="valueInput" type="number" min="0" name="system.will.current" bind:value={$actor.system.will.current} />
     </div>
     </section>

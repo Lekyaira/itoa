@@ -86,4 +86,9 @@ export default class itoaActorSheet extends itoaBaseSheet
         this.options.token = null;
         return super.close(options);
     }
+
+    async _render(force = false, options = {}) {
+        if(options.action === 'heropointClick' || options.action === 'heropointRightClick') return;
+        super._render(force, options);
+    }
 }

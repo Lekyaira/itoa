@@ -1,5 +1,6 @@
 import itoaActor from './itoaActor.js';
 import itoaItem from './itoaItem.js';
+import itoaTokenDocument from './itoaTokenDocument.js';
 
 import itoaActorSheet from './sheets/actor/itoaActorSheet.js';
 import itoaItemSheet from './sheets/item/itoaItemSheet.js';
@@ -18,6 +19,7 @@ Hooks.once("init", async () =>
     console.log("ItOA | Setting up classes...");
     CONFIG.Actor.documentClass = itoaActor;
     CONFIG.Item.documentClass = itoaItem;
+    CONFIG.Token.documentClass = itoaTokenDocument;
 
     // Register sheets
     console.log("ItOA | Registering sheets...");

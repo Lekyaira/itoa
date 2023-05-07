@@ -7,24 +7,20 @@
 
     // Hero points
     let heroPoints = $actor.system.heropoints;
-    function heropointClick(event) {
-        event.stopPropagation();
-        event.preventDefault();
-
+    function heropointClick() {
         if(heroPoints >= 5) return;
         heroPoints++;
         // Update our document with the changes.
-        let data = {_id: $actor.id, 'system.heropoints': heroPoints};
-        console.log(data);
-        $actor.update(data, {render: false});
-        //$actor.update({_id: $actor.id, 'system.heropoints': heroPoints});
+        let data = {'system.heropoints': heroPoints};
+        $actor.update(data, {action: 'heropointClick'});
     }
 
     function heropointRightClick() {
         if(heroPoints <= 0) return;
         heroPoints--;
-        let data = {_id: $actor.id, 'system.heropoints': heroPoints};
-        //$actor.update({_id: $actor.id, 'system.heropoints': heroPoints});
+        // Update our document with the changes.
+        let data = {'system.heropoints': heroPoints};
+        $actor.update(data, {action: 'heropointRightClick'});
     }
 </script>
 

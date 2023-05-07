@@ -38,15 +38,12 @@
       let newWeight;
       if(weightType == 0) { // Negligible
          newWeight = -1;
-         console.log('Negligible');
       }
       else if(weightType == 1) { // Light
          newWeight = 0;
-         console.log('Light');
       }
       else if(weightType == 2) { // Stone
          newWeight = 1;
-         console.log('Stone');
       }
 
       weight = newWeight;

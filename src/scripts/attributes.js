@@ -21,3 +21,19 @@ export function strMaxLoad(str) {
     }
     else return 0;
 }
+
+export function witsDodgeMod(wits) {
+    if(wits === 1) return -5;
+    if(wits === 2) return -4;
+    if(wits === 3) return -3;
+    if(wits <= 5) return -2;
+    if(wits <= 8) return -1;
+    if(wits <= 12) return 0;
+    if(wits <=15) return 1;
+    if(wits <= 17) return 2;
+    return wits - 15;
+}
+
+export function modText(value) {
+    return value >= 0 ? `+${value}` : `${value}`;
+}

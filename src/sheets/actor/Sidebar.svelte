@@ -1,5 +1,5 @@
 <script>
-   import { action_destroyer } from "svelte/internal";
+   import { witsDodgeMod, modText } from '../../scripts/attributes';
 
     // Sheet and Actor data passed in from base sheet.
    export let sheet;
@@ -102,19 +102,26 @@
     </div>
     </section>
 
+    <div class='horizontalDivider'/>
+
     <section id="otherStats">
-        <div class="hpBox">
-            <div class="valueLabel">Hero Points</div>
-            <div class="heroPointsValue" on:click={heropointClick} on:contextmenu={heropointRightClick}>
-                {#each [...Array(5).keys()].map(i=>i+1) as n}
-                    {#if heroPoints >= n}
-                    <i class="fas fa-diamond" />
-                    {:else}
-                    <i class="far fa-diamond" />
-                    {/if}
-                {/each}
-            </div>
-        </div>
+        <!--Speed-->
+        <span class="valueLabel">Speed</span>
+        <span class="otherValue">4</span>
+        <!--Dodge-->
+        <span class="valueLabel">Dodge</span>
+        <span class="otherValue">{modText(witsDodgeMod($actor.system.wits.current))}</span>
+        <!--Hero Points-->
+        <span class="valueLabel">Hero Points</span>
+        <span class="heroPointsValue" on:click={heropointClick} on:contextmenu={heropointRightClick}>
+            {#each [...Array(5).keys()].map(i=>i+1) as n}
+                {#if heroPoints >= n}
+                <i class="fas fa-diamond" />
+                {:else}
+                <i class="far fa-diamond" />
+                {/if}
+            {/each}
+        </span>
     </section>
 
 </section>
@@ -122,6 +129,16 @@
 <style lang="scss">
     .verticalDivider {
         border-left: 1px solid black;
+        height: 80%;
+        width: 0.2rem;
+        margin-right: 0.2rem;
+    }
+    
+    .horizontalDivider {
+        border-bottom: 1px solid black;
+        height: 0.2rem;
+        width: 80%;
+        margin-bottom: 0.2rem;
     }
 
     .valueLabel {
@@ -240,5 +257,24 @@
     #attributes .attribRoll {
         font-size: 0.6rem;
         margin-right: 0.1rem;
+    }
+
+    #otherStats {
+        display: grid;
+        grid: auto / auto auto;
+        width: 100%;
+        align-items: baseline;
+    }
+
+    #otherStats span {
+        margin: 0 0.2rem 0 0.2rem;
+    }
+
+    #otherStats .valueLabel {
+        text-align: right;
+    }
+
+    #otherStats .otherValue {
+        font-size: 1rem;
     }
 </style>

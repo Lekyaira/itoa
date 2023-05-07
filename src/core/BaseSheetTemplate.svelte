@@ -42,8 +42,6 @@
             // Refresh the sheet template data.
             // sheet.refresh();
     });
-
-    console.log(elementRoot);
  </script>
   
  <!-- This is necessary for Svelte to generate accessors TRL can access for `elementRoot` -->

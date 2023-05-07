@@ -66,27 +66,29 @@
 
 <!--Armor-->
     <section id="armorBlock">
-    <div class="armorBox">
-        <span class="valueLabel top">Armor</span>
-        <span class="valueInput">{$actor.derived.armor}</span>
-        <span class="bottom">
-            <span class="valueLabel">Mod</span>
-            <input class="valueInput" type="number" min=0 name="system.armorMod" bind:value={$actor.system.armorMod} />
-        </span>
-    </div>
-    <div class="armorBox">
-        <div class="valueLabel">Shield</div>
-        <div id="shieldBlock">
-            <div class="shieldBox">
-                <div class="valueLabel">Hardness</div>
-                <input class="valueInput" type="number" min=0 name="derived.shield.hardness" bind:value={$actor.derived.shield.hardness} />
-            </div>
-            <div class="shieldBox">
-                <div class="valueLabel">HP</div>
-                <input class="valueInput" type="number" min=0 name="derived.shield.hp" bind:value={$actor.derived.shield.hp} />
-            </div>
+        <div class="armorBox">
+            <span class="valueLabel top">Armor</span>
+            <span class="valueInput">{$actor.derived.armor}</span>
+            <span class="bottom">
+                <span class="valueLabel">Mod</span>
+                <input class="valueInput" type="number" min=0 name="system.armorMod" bind:value={$actor.system.armorMod} />
+            </span>
         </div>
-    </div>
+        <div class="armorBox shieldBox">
+            <span class="valueLabel top">Shield</span>
+            <input class="valueInput shieldValue" type="number" min=0 name="derived.shield.hp" bind:value={$actor.derived.shield.hp} />
+            <span class="bottom">
+                <span class="left">
+                    <span class="valueLabel">HT</span>
+                    <span class="valueInput">{$actor.derived.shield.hardness}</span>
+                </span>
+                <span class="verticalDivider"/>
+                <span class="right">
+                    <span class="valueLabel">Max</span>
+                    <input class="valueInput" type="number" min=0 name="derived.shield.hpMax" bind:value={$actor.derived.shield.hpMax} />
+                </span>
+            </span>
+        </div>
     </section>
 
 <!--Attributes-->
@@ -237,11 +239,34 @@
 
     #armorBlock .top {
         border-bottom: 1px solid black;
-        
+        height: 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     #armorBlock .bottom {
         border-top: 1px solid black;
+        display: flex;
+        align-items: center;
+        height: 1.2rem;
+        padding: 0 0.2rem 0 0.2rem;
+    }
+
+    #armorBlock .bottom .verticalDivider {
+        margin: 0;
+        margin-right: 0.2rem;
+        width: 0.1rem;
+        height: 100%;
+    }
+
+    #armorBlock .bottom .right {
+        display: flex;
+        justify-content: center;
+        align-items: baseline;
+    }
+
+    #armorBlock .bottom .left {
         display: flex;
         justify-content: center;
         align-items: baseline;
@@ -249,10 +274,6 @@
 
     #armorBlock .bottom .valueLabel {
         text-align: right;
-    }
-
-    #armorBlock #shieldBlock {
-        display: flex;
     }
 
     /*

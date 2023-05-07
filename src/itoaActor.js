@@ -7,7 +7,8 @@ export default class itoaActor extends Actor {
         armor: 1,
         shield: {
             hardness: 0,
-            hp: 5
+            hp: 5,
+            hpMax: 5
         },
         weight: {
             stones: 0,
@@ -61,6 +62,7 @@ export default class itoaActor extends Actor {
                     if(item.system.isShield) {
                         this.derived.shield.hardness = item.system.shield.hardness;
                         this.derived.shield.hp = item.system.shield.hp;
+                        this.derived.shield.hpMax = item.system.shield.hpMax;
                     }
                     // TODO: Speed modifier
                     // TODO: Dodge modifier

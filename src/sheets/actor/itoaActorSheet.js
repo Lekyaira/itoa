@@ -88,7 +88,7 @@ export default class itoaActorSheet extends itoaBaseSheet
     }
 
     async _render(force = false, options = {}) {
-        if(options.action === 'heropointClick' || options.action === 'heropointRightClick') return;
+        if(options.action === 'updateSyntheticActor') return; // We don't need to render if this call is coming from Token
         super._render(force, options);
     }
 }

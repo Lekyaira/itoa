@@ -8,9 +8,9 @@ export default class itoaTokenDocument extends TokenDocument {
     _onUpdateBaseActor(update={}, options={}) {
 
         // Update synthetic Actor data
-        if ( !this.isLinked && this.delta ) {
+        if (!this.isLinked && this.delta) {
             this.delta.updateSyntheticActor();
-            this.actor.sheet.render(false, options);
+            this.actor.sheet.render(false, { action: 'updateSyntheticActor' });
         }
 
         this._onRelatedUpdate(update, options);

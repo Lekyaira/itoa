@@ -14,7 +14,7 @@
         heroPoints++;
         // Update our document with the changes.
         let data = {'system.heropoints': heroPoints};
-        $actor.update(data, {action: 'heropointClick'});
+        $actor.update(data);
     }
 
     async function heropointRightClick() {
@@ -22,7 +22,7 @@
         heroPoints--;
         // Update our document with the changes.
         let data = {'system.heropoints': heroPoints};
-        $actor.update(data, {action: 'heropointRightClick'});
+        $actor.update(data);
     }
 
     // Saves

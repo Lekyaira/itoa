@@ -121,8 +121,8 @@
     }
 
     /*
-        * HP
-        */
+     * HP
+     */
     #hpBlock {
         display: flex;
     }

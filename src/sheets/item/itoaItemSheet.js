@@ -1,5 +1,5 @@
-import itoaBaseSheet from "../core/itoaBaseSheet";
-import SkillSheetTemplate from "./SkillSheetTemplate.svelte";
+import itoaBaseSheet from "../../core/itoaBaseSheet";
+import ItemSheetTemplate from "./ItemSheetTemplate.svelte";
 
 export default class itoaItemSheet extends itoaBaseSheet
 {
@@ -8,7 +8,7 @@ export default class itoaItemSheet extends itoaBaseSheet
     }
 
     constructor(object = {}, options = {}) {
-        super(object, options, SkillSheetTemplate);
+        super(object, options, ItemSheetTemplate);
     }
 
     static get defaultOptions() {

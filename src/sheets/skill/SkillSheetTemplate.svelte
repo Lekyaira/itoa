@@ -22,7 +22,6 @@
       // initialSelection: 'start', // The initial selection / cursor position: 'all', 'end', or 'start'.
       // styles: { '--tjs-editor-toolbar-background': 'red' } // Apply any inline styles / CSS variables
    };
-   console.log($item);
    let content = $item.system.text;
    let enrichedContent;
 

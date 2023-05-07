@@ -18,7 +18,6 @@
 
     async function deleteItem(item)
     {
-        console.log(item);
         await Item.deleteDocuments([item.id], { parent: $actor });
     }
 

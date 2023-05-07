@@ -24,6 +24,7 @@
             },
             "heropoints": 1,
             "dodge": 0,
+            "armorMod": 0,
             "xp": 0,
             "level": 1,
             "species": "",
@@ -51,7 +52,8 @@
             "isShield": false,
             "shield": {
                 "hardness": 0,
-                "hp": 0
+                "hp": 0,
+                "hpMax": 0
             },
             "speedMod": 0,
             "dodgeMod": 0,

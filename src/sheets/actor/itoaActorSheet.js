@@ -1,4 +1,4 @@
-import itoaBaseSheet from "../core/itoaBaseSheet";
+import itoaBaseSheet from "../../core/itoaBaseSheet";
 import ActorSheetTemplate from "./ActorSheetTemplate.svelte";
 
 export default class itoaActorSheet extends itoaBaseSheet
@@ -12,7 +12,7 @@ export default class itoaActorSheet extends itoaBaseSheet
      * @type {Token|null}
      */
     get token() {
-        return this.object.token || this.options.token || null;
+        return this.options?.token || this.actor.token || null;
     }
 
     constructor(object = {}, options = {}) {
@@ -66,10 +66,29 @@ export default class itoaActorSheet extends itoaBaseSheet
         else new CONFIG.Token.prototypeSheetClass(this.actor.prototypeToken, renderOptions).render(true);
     }
 
+    /**
+     * Default Application options
+     *
+     * @returns {object} options - Application options.
+     * @see https://foundryvtt.com/api/interfaces/client.ApplicationOptions.html
+     */
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
+            baseApplication: 'ActorSheet',
             width: 800,
             height: 900,
+            token: null
         });
+    }
+
+    /** @inheritdoc */
+    async close(options) {
+        this.options.token = null;
+        return super.close(options);
+    }
+
+    async _render(force = false, options = {}) {
+        if(options.action === 'updateSyntheticActor') return; // We don't need to render if this call is coming from Token
+        super._render(force, options);
     }
 }

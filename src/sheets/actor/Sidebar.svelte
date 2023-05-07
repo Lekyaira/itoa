@@ -30,23 +30,13 @@
 <section id="stats">
     <!--HP-->
     <section id="hpBlock">
-    <div class="hpBox">
-        <div class="valueLabel">HP</div>
-        <input class="valueInput" type="number" min=0 name="system.hp.current" bind:value={$actor.system.hp.current} />
-    </div>
-    
-    <div class="hpBox">
-        <div class="valueLabel">Hero Points</div>
-        <div class="heroPointsValue" on:click={heropointClick} on:contextmenu={heropointRightClick}>
-            {#each [...Array(5).keys()].map(i=>i+1) as n}
-                {#if heroPoints >= n}
-                <i class="fas fa-diamond" />
-                {:else}
-                <i class="far fa-diamond" />
-                {/if}
-            {/each}
+        <div class="hpBox">
+            <div class="valueLabel">HP</div>
+            <input class="valueInput" type="number" min=0 name="system.hp.current" bind:value={$actor.system.hp.current} />
+            <div class='valueLabel'>Base {$actor.system.hp.base}</div>
         </div>
-    </div>
+        
+        
     </section>
 <!--Armor-->
     <section id="armorBlock">
@@ -83,6 +73,21 @@
         <div class="valueLabel"><div class="attribRoll fas fa-dice-d20"/>Will</div>
         <input class="valueInput" type="number" min="0" name="system.will.current" bind:value={$actor.system.will.current} />
     </div>
+    </section>
+
+    <section id="otherStats">
+        <div class="hpBox">
+            <div class="valueLabel">Hero Points</div>
+            <div class="heroPointsValue" on:click={heropointClick} on:contextmenu={heropointRightClick}>
+                {#each [...Array(5).keys()].map(i=>i+1) as n}
+                    {#if heroPoints >= n}
+                    <i class="fas fa-diamond" />
+                    {:else}
+                    <i class="far fa-diamond" />
+                    {/if}
+                {/each}
+            </div>
+        </div>
     </section>
 </section>
 
@@ -136,13 +141,14 @@
     }
 
     #hpBlock .valueInput {
-        width: 3rem;
-        height: 2rem;
+        font-size: 3.5rem;
+        width: 6rem;
+        height: 3.5rem;
     }
 
     /*
-        * Armor
-        */
+     * Armor
+     */
     #armorBlock {
         display: flex;
     }
@@ -168,8 +174,8 @@
     }
 
     /*
-        * Attributes
-        */
+     * Attributes
+     */
     #attributes {
         display: flex;
         flex-direction: row;

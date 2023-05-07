@@ -109,23 +109,30 @@
 
     <div class='horizontalDivider'/>
 
+<!--Other Stats-->
     <section id="otherStats">
         <!--Speed-->
-        <span class="valueLabel">Speed</span>
-        <span class="otherValue">4</span>
+        <span>
+            <span class="valueLabel">Speed</span>
+            <span class="otherValue">4</span>
+        </span>
         <!--Dodge-->
-        <span class="valueLabel">Dodge</span>
-        <span class="otherValue">{modText(witsDodgeMod($actor.system.wits.current))}</span>
+        <span>
+            <span class="valueLabel">Dodge</span>
+            <span class="otherValue">{modText(witsDodgeMod($actor.system.wits.current))}</span>
+        </span>
         <!--Hero Points-->
-        <span class="valueLabel">Hero Points</span>
-        <span class="heroPointsValue" on:click={heropointClick} on:contextmenu={heropointRightClick}>
-            {#each [...Array(5).keys()].map(i=>i+1) as n}
-                {#if heroPoints >= n}
-                <i class="fas fa-diamond" />
-                {:else}
-                <i class="far fa-diamond" />
-                {/if}
-            {/each}
+        <span>
+            <span class="valueLabel">Hero Points</span>
+            <span class="heroPointsValue" on:click={heropointClick} on:contextmenu={heropointRightClick}>
+                {#each [...Array(5).keys()].map(i=>i+1) as n}
+                    {#if heroPoints >= n}
+                    <i class="fas fa-diamond" />
+                    {:else}
+                    <i class="far fa-diamond" />
+                    {/if}
+                {/each}
+            </span>
         </span>
     </section>
 
@@ -313,9 +320,12 @@
         margin-right: 0.1rem;
     }
 
+    /*
+     * Other Stats
+     */
     #otherStats {
-        display: grid;
-        grid: auto / auto auto;
+        display: flex;
+        flex-direction: column;
         width: 100%;
         align-items: baseline;
     }
